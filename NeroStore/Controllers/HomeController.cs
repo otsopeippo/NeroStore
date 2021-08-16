@@ -25,10 +25,9 @@ namespace NeroStore.Controllers
         public IActionResult Index()
         {
             var apustelijat = new Apumetodit(_context);
-            //var sessio = HttpContext.Session;
-            //apustelijat.LisääOstoskoriin(sessio, 1);
-            //var testi = HttpContext.Session.GetString("foo");
-            //var tuotteet = apustelijat.HaeTuotteet();
+            var sessio = HttpContext.Session;
+            apustelijat.LisääOstoskoriin(sessio, 1);
+            var testi = HttpContext.Session.GetString("foo");
 
             return View();
         }
