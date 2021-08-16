@@ -39,6 +39,24 @@ namespace NeroStore.Controllers
         {
             return View();
         }
-
+        public IActionResult Kirjautuminen(int id)
+        {
+            NeroStore.Apumetodit am = new Apumetodit();
+            if(am.KäyttäjäOnOlemassa(id) == true)
+            {
+                if(am.KäyttäjäOnAdmin(id) == true)
+                {
+                    return RedirectToAction("Index", "TuotesController");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return View();
+            }
+        }
     }
 }
