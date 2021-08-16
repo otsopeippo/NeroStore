@@ -51,7 +51,8 @@ namespace NeroStore.Controllers
 
         public IActionResult Ostoskori()
         {
-            return View();
+            Apumetodit db = new Apumetodit(_context);
+            return View(db.HaeTuotteet());
         }
 
         public IActionResult Kiitos()
