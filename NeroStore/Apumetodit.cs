@@ -7,7 +7,7 @@ namespace NeroStore
 {
     public class Apumetodit
     {
-        public void HaetTuotteet()
+        public void HaeTuotteet()
         {
             // koodi
         }
