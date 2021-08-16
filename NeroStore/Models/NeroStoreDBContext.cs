@@ -27,7 +27,7 @@ namespace NeroStore.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=localhost;database=NeroStoreDB;trusted_connection=true");
+                optionsBuilder.UseSqlServer("server=DESKTOP-5E8MOLV\\MSSQLSERVER01;database=NeroStoreDB;trusted_connection=true");
             }
         }
 
@@ -51,6 +51,8 @@ namespace NeroStore.Models
                     .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("etunimi");
+
+                entity.Property(e => e.OnAdmin).HasColumnName("onAdmin");
 
                 entity.Property(e => e.Osoite)
                     .HasMaxLength(30)
@@ -82,7 +84,7 @@ namespace NeroStore.Models
             modelBuilder.Entity<Tilau>(entity =>
             {
                 entity.HasKey(e => e.TilausId)
-                    .HasName("PK__Tilaus__0775FE4D62778F13");
+                    .HasName("PK__Tilaus__0775FE4DD6427A3B");
 
                 entity.Property(e => e.TilausId).HasColumnName("tilaus_id");
 

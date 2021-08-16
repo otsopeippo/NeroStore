@@ -8,14 +8,50 @@ namespace NeroStore
 {
     public class Apumetodit
     {
-        public void HaeTuotteet()
+        public List<Tuote> HaeTuotteet()
         {
-            // koodi
+            var tuotteet = new List<Tuote> { };
+            using (NeroStoreDBContext db = new NeroStoreDBContext())
+            {
+                tuotteet = db.Tuotes.Select(tuote => tuote).ToList();
+            }
+            return tuotteet;
         }
 
-        public void LisääTuote()
+        public Tuote HaeTuote(int id)
         {
-            // koodi
+            var tuote = new Tuote();
+            using (NeroStoreDBContext db = new NeroStoreDBContext())
+            {
+                tuote = db.Tuotes.Find(id);
+            }
+            return tuote;
+        }
+
+        public bool LisääTuote(string nimi, decimal hinta, int lkm, string kuvaus, string tyyppi, string tuoteryhma)
+        {
+            var uusiTuote = new Tuote();
+            uusiTuote.Nimi = nimi;
+            uusiTuote.Hinta = hinta;
+            uusiTuote.Lkm = lkm;
+            uusiTuote.Kuvaus = kuvaus;
+            uusiTuote.Tyyppi = tyyppi;
+            uusiTuote.Tuoteryhma = tuoteryhma;
+
+            try
+            {
+                using (NeroStoreDBContext db = new NeroStoreDBContext())
+                {
+                    db.Tuotes.Add(uusiTuote);
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public void MuutaTuotetta()
