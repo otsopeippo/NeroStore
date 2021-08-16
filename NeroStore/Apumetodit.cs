@@ -27,7 +27,7 @@ namespace NeroStore
         public Tuote HaeTuote(int id)
         {
             var tuote = new Tuote();
-            //tuote = _context.Tuotes.Find(id);
+            tuote = _context.Tuotes.Find(id);
             return tuote;
         }
 
@@ -95,8 +95,8 @@ namespace NeroStore
         public void LisääOstoskoriin(ISession sessio, int id)
         {
             // koodi
-            //var tuote = HaeTuote(id);
-            //var tuoteJson = JsonConvert.SerializeObject(tuote);
+            var tuote = HaeTuote(id);
+            var tuoteJson = JsonConvert.SerializeObject(tuote);
 
             sessio.SetString("foo", "foobar");
 
