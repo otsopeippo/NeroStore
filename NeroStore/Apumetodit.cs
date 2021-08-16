@@ -79,17 +79,22 @@ namespace NeroStore
             // koodi
         }
 
-        public void KäyttäjäOnOlemassa()
+        public bool KäyttäjäOnOlemassa(int id)
         {
-            // koodi
-        }
-
-        public void KäyttäjäOnAdmin(int id)
-        {
-            NeroStoreDBContext db = new();
+            using NeroStoreDBContext db = new();
             var q = (from k in db.Kayttajas
                      where k.KayttajaId == id
-                     select k).FirstOrDefault();
+                     select k).FirstOrDefault().KayttajaId;
+            return (q == id) ? true : false;
+        }
+
+        public bool KäyttäjäOnAdmin(int id)
+        {
+            using NeroStoreDBContext db = new();
+            var onAdmin = (from k in db.Kayttajas
+                     where k.KayttajaId == id
+                     select k).FirstOrDefault().OnAdmin;
+            return onAdmin;
         }
     }
 }
