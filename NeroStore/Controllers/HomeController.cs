@@ -40,5 +40,9 @@ namespace NeroStore.Controllers
             return View();
         }
 
+        public IActionResult Kiitos()
+        {
+            return View();
+        }
     }
 }
