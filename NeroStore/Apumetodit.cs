@@ -43,11 +43,8 @@ namespace NeroStore
 
             try
             {
-                using (NeroStoreDBContext db = new NeroStoreDBContext())
-                {
-                    db.Tuotes.Add(uusiTuote);
-                    db.SaveChanges();
-                }
+                _context.Tuotes.Add(uusiTuote);
+                _context.SaveChanges();
             }
             catch
             {
@@ -61,13 +58,10 @@ namespace NeroStore
         {
             try
             {
-                var tuote = new Tuote();
-                using (NeroStoreDBContext db = new NeroStoreDBContext())
-                {
-                    tuote = db.Tuotes.Find(id);
-                    tuote.Lkm = tuote.Lkm + muutos;
-                    db.SaveChanges();
-                }
+            var tuote = new Tuote();
+                tuote = _context.Tuotes.Find(id);
+                tuote.Lkm = tuote.Lkm + muutos;
+                _context.SaveChanges();
             }
             catch
             {
@@ -81,26 +75,24 @@ namespace NeroStore
             // koodi
         }
 
-        public void HaeOstoskori()
+        public List<Tuote> HaeOstoskori(ISession sessio)
         {
-            // koodi
-            // ostoskorissa on vain id :itä, joten tämä metodi hakee iideet,
-            // hakee niillä tuotteet ja palauttaa tuotteet
-
-
-
-
+            var ostoskori = new List<Tuote> { };
+            string ostoskoriSerialized = sessio.GetString("tuotteet");
+            if (!string.IsNullOrEmpty(ostoskoriSerialized))
+            {
+                ostoskori = JsonConvert.DeserializeObject<List<Tuote>>(ostoskoriSerialized);
+            }
+            return ostoskori;
         }
 
         public void LisääOstoskoriin(ISession sessio, int id)
         {
-            // koodi
+            var ostoskori = HaeOstoskori(sessio);
             var tuote = HaeTuote(id);
-            var tuoteJson = JsonConvert.SerializeObject(tuote);
-
-            sessio.SetString("foo", "foobar");
-
-
+            ostoskori.Add(tuote);
+            string ostoskoriSerialized = JsonConvert.SerializeObject(ostoskori);
+            sessio.SetString("tuotteet", ostoskoriSerialized);
         }
 
         public void PoistaOstoskorista()
