@@ -3,28 +3,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace NeroStore
 {
     public class Apumetodit
     {
+        private readonly NeroStoreDBContext _context;
+
+        public Apumetodit(NeroStoreDBContext context)
+        {
+            _context = context;
+        }
+
         public List<Tuote> HaeTuotteet()
         {
             var tuotteet = new List<Tuote> { };
-            using (NeroStoreDBContext db = new NeroStoreDBContext())
-            {
-                tuotteet = db.Tuotes.Select(tuote => tuote).ToList();
-            }
+            tuotteet = _context.Tuotes.Select(tuote => tuote).ToList();
             return tuotteet;
         }
 
         public Tuote HaeTuote(int id)
         {
             var tuote = new Tuote();
-            using (NeroStoreDBContext db = new NeroStoreDBContext())
-            {
-                tuote = db.Tuotes.Find(id);
-            }
+            //tuote = _context.Tuotes.Find(id);
             return tuote;
         }
 
@@ -81,11 +84,23 @@ namespace NeroStore
         public void HaeOstoskori()
         {
             // koodi
+            // ostoskorissa on vain id :itä, joten tämä metodi hakee iideet,
+            // hakee niillä tuotteet ja palauttaa tuotteet
+
+
+
+
         }
 
-        public void LisääOstoskoriin()
+        public void LisääOstoskoriin(ISession sessio, int id)
         {
             // koodi
+            //var tuote = HaeTuote(id);
+            //var tuoteJson = JsonConvert.SerializeObject(tuote);
+
+            sessio.SetString("foo", "foobar");
+
+
         }
 
         public void PoistaOstoskorista()

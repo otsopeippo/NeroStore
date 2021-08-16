@@ -25,9 +25,19 @@ namespace NeroStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // connection string jutut
             services.AddDbContext<NeroStoreDBContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("NeroStoreDB")));
             services.AddControllers();
+
+            // session jutut
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             services.AddControllersWithViews();
         }
@@ -51,6 +61,9 @@ namespace NeroStore
             app.UseRouting();
 
             app.UseAuthorization();
+
+            // session juttu
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

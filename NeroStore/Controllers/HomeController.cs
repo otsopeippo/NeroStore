@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NeroStore.Models;
 using System;
@@ -11,15 +12,24 @@ namespace NeroStore.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly NeroStoreDBContext _context;
+
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, NeroStoreDBContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
+            var apustelijat = new Apumetodit(_context);
+            //var sessio = HttpContext.Session;
+            //apustelijat.LisääOstoskoriin(sessio, 1);
+            //var testi = HttpContext.Session.GetString("foo");
+            //var tuotteet = apustelijat.HaeTuotteet();
+
             return View();
         }
         
