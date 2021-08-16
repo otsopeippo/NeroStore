@@ -15,5 +15,6 @@ namespace NeroStore.Models
         public string Osoite { get; set; }
         public string Postinumero { get; set; }
         public DateTime? Syntymäaika { get; set; }
+        public bool OnAdmin { get; set; }
     }
 }
