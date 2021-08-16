@@ -1,0 +1,65 @@
+﻿@model IEnumerable<NeroStore.Models.Tuote>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nimi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hinta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lkm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kuvaus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tyyppi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tuoteryhma)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nimi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hinta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lkm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kuvaus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tyyppi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tuoteryhma)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.TuoteId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.TuoteId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.TuoteId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
