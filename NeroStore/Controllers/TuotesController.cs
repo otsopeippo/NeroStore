@@ -38,6 +38,7 @@ namespace NeroStore.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Tuote = tuote;
 
             return View(tuote);
         }
