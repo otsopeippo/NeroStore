@@ -27,7 +27,7 @@ namespace NeroStore.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                //optionsBuilder.UseSqlServer("server=localhost;database=NeroStoreDB;trusted_connection=true");
+                optionsBuilder.UseSqlServer("server=localhost;database=NeroStoreDB;trusted_connection=true");
             }
         }
 
@@ -39,9 +39,7 @@ namespace NeroStore.Models
             {
                 entity.ToTable("Kayttaja");
 
-                entity.Property(e => e.KayttajaId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("kayttaja_id");
+                entity.Property(e => e.KayttajaId).HasColumnName("kayttaja_id");
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -84,11 +82,9 @@ namespace NeroStore.Models
             modelBuilder.Entity<Tilau>(entity =>
             {
                 entity.HasKey(e => e.TilausId)
-                    .HasName("PK__Tilaus__0775FE4D77A7DDE6");
+                    .HasName("PK__Tilaus__0775FE4D62778F13");
 
-                entity.Property(e => e.TilausId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("tilaus_id");
+                entity.Property(e => e.TilausId).HasColumnName("tilaus_id");
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -115,9 +111,7 @@ namespace NeroStore.Models
             {
                 entity.ToTable("TilausRivi");
 
-                entity.Property(e => e.TilausriviId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("tilausrivi_id");
+                entity.Property(e => e.TilausriviId).HasColumnName("tilausrivi_id");
 
                 entity.Property(e => e.Lkm).HasColumnName("lkm");
 
@@ -140,9 +134,7 @@ namespace NeroStore.Models
             {
                 entity.ToTable("Tuote");
 
-                entity.Property(e => e.TuoteId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("tuote_id");
+                entity.Property(e => e.TuoteId).HasColumnName("tuote_id");
 
                 entity.Property(e => e.Hinta)
                     .HasColumnType("decimal(7, 2)")
