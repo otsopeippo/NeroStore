@@ -54,9 +54,23 @@ namespace NeroStore
             return true;
         }
 
-        public void MuutaTuotetta()
+        public bool MuutaTuotteenSaldoa(int id, int muutos)
         {
-            // koodi
+            try
+            {
+                var tuote = new Tuote();
+                using (NeroStoreDBContext db = new NeroStoreDBContext())
+                {
+                    tuote = db.Tuotes.Find(id);
+                    tuote.Lkm = tuote.Lkm + muutos;
+                    db.SaveChanges();
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
 
         public void PoistaTuote()

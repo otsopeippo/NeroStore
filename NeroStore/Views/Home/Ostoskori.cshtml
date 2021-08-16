@@ -1,0 +1,33 @@
+﻿
+@{ 
+    List<Tuote> omatTuotteet = new List<Tuote>();
+}
+
+
+
+<h1>Ostoskori</h1>
+<br />
+<br />
+
+<table border="1">
+    <tr>
+        <th>Tuotenimi</th>
+        <th>Lukumäärä</th>
+        <th>Hinta</th>
+    </tr>
+    @{ 
+        foreach (var tuote in omatTuotteet)
+        {
+            <tr>
+                <td>@tuote.Nimi</td>
+                <td>@tuote.Lkm</td>
+                <td>@tuote.Hinta</td>
+            </tr>
+        }
+    }
+    <tr>
+        <td></td>
+        <td>Tuotteiden määrä: @omatTuotteet.Count()</td>
+        <td>Kokonaishinta: @omatTuotteet.Select(a => a.Hinta).Sum()</td>
+    </tr>
+</table>
