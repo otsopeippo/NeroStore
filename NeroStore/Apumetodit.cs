@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeroStore.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,9 +48,12 @@ namespace NeroStore
             // koodi
         }
 
-        public void KäyttäjäOnAdmin()
+        public void KäyttäjäOnAdmin(int id)
         {
-            // koodi
+            NeroStoreDBContext db = new();
+            var q = (from k in db.Kayttajas
+                     where k.KayttajaId == id
+                     select k).FirstOrDefault();
         }
     }
 }
