@@ -32,7 +32,7 @@ namespace NeroStore.Controllers
 
             return View();
         }
-        
+
 
         public IActionResult Privacy()
         {
@@ -59,24 +59,19 @@ namespace NeroStore.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Kirjautuminen(int id)
+        public IActionResult Kirjautuminen(string nimi, string salasana)
         {
             NeroStore.Apumetodit am = new Apumetodit(_context);
-            if(am.KäyttäjäOnOlemassa(id) == true)
+           
+            if (am.KäyttäjäOnOlemassa(id) == true)
             {
-                if(am.KäyttäjäOnAdmin(id) == true)
+                if (am.KäyttäjäOnAdmin(id) == true)
                 {
                     return RedirectToAction("Index", "TuotesController");
                 }
-                else
-                {
-                    return View();
-                }
+
             }
-            else
-            {
-                return View();
-            }
+            return View();
         }
     }
 }
