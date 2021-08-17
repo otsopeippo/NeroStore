@@ -37,6 +37,11 @@ namespace NeroStore.Controllers
             return View();
         }
 
+        public IActionResult Etusivu()
+        {
+            return View();
+        }
+
 
         public IActionResult Privacy()
         {
