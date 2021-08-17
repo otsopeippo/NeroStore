@@ -117,5 +117,27 @@ namespace NeroStore
                      select k).FirstOrDefault().OnAdmin;
             return onAdmin;
         }
+        public bool LisääTilaus(string email, decimal tilaussumma)
+        {
+            DateTime dt = new();
+            Tilau uusiTilaus = new()
+            {
+                Email = email,
+                Tilauspvm = DateTime.Now,
+                ToimitusPvm = dt.AddDays(2),
+                Tilaussumma = tilaussumma,
+            };
+
+            try
+            {
+                _context.Tilaus.Add(uusiTilaus);
+                _context.SaveChanges();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
