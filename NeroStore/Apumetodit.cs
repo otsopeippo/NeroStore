@@ -192,5 +192,15 @@ namespace NeroStore
             }
             return false;
         }
+
+        public void HaeKatsotuimmatTuotteet()
+        {
+            //var katsotuimmatTuotteet = _context.Tuotes.
+        }
+
+        public void LisääNäyttökerta(int id)
+        {
+
+        }
     }
 }
