@@ -54,9 +54,14 @@ namespace NeroStore.Controllers
         {
             return View();
         }
+        public IActionResult Kirjautuminen()
+        {
+            return View();
+        }
+        [HttpPost]
         public IActionResult Kirjautuminen(int id)
         {
-            NeroStore.Apumetodit am = new Apumetodit();
+            NeroStore.Apumetodit am = new Apumetodit(_context);
             if(am.KäyttäjäOnOlemassa(id) == true)
             {
                 if(am.KäyttäjäOnAdmin(id) == true)
