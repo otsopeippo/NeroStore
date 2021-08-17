@@ -34,7 +34,7 @@ namespace NeroStore.Controllers
             //var ostoskori = a.HaeOstoskori(sessio);
             //Console.WriteLine(ostoskori);
 
-            return View();
+            return View("Etusivu");
         }
 
         public IActionResult Etusivu()
