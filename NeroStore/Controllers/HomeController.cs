@@ -89,5 +89,18 @@ namespace NeroStore.Controllers
             }
             return View();
         }
+        public IActionResult Tietoja(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var tuote = _context.Tuotes.Where(t => t.TuoteId == id).FirstOrDefault();
+                //ViewBag.Tuote = tuote;
+                return View(tuote);
+            }
+        }
     }
 }
