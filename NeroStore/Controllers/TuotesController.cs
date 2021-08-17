@@ -56,7 +56,13 @@ namespace NeroStore.Controllers
         // GET: Tuotes/Create
         public IActionResult Create()
         {
-            return View();
+            NeroStore.Apumetodit am = new Apumetodit(_context);
+            if (am.OnkoSessiossa(this.HttpContext.Session) == true)
+            {
+                return View();
+
+            }
+            return RedirectToAction("Kirjautuminen", "Home");
         }
 
         // POST: Tuotes/Create
@@ -78,17 +84,22 @@ namespace NeroStore.Controllers
         // GET: Tuotes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            NeroStore.Apumetodit am = new Apumetodit(_context);
+            if (am.OnkoSessiossa(this.HttpContext.Session) == true)
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var tuote = await _context.Tuotes.FindAsync(id);
-            if (tuote == null)
-            {
-                return NotFound();
+                var tuote = await _context.Tuotes.FindAsync(id);
+                if (tuote == null)
+                {
+                    return NotFound();
+                }
+                return View(tuote);
             }
-            return View(tuote);
+            return RedirectToAction("Kirjautuminen", "Home");
         }
 
         // POST: Tuotes/Edit/5
@@ -129,19 +140,24 @@ namespace NeroStore.Controllers
         // GET: Tuotes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            NeroStore.Apumetodit am = new Apumetodit(_context);
+            if (am.OnkoSessiossa(this.HttpContext.Session) == true)
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var tuote = await _context.Tuotes
-                .FirstOrDefaultAsync(m => m.TuoteId == id);
-            if (tuote == null)
-            {
-                return NotFound();
-            }
+                var tuote = await _context.Tuotes
+                    .FirstOrDefaultAsync(m => m.TuoteId == id);
+                if (tuote == null)
+                {
+                    return NotFound();
+                }
 
-            return View(tuote);
+                return View(tuote);
+            }
+            return RedirectToAction("Kirjautuminen", "Home");
         }
 
         // POST: Tuotes/Delete/5
