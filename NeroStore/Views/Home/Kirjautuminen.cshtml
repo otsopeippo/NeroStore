@@ -6,14 +6,16 @@
 <h1>Kirjautuminen</h1>
 <p></p>
 <form method="post" action="Kirjautuminen">
-    <label for="etunimi"><b>Etunimi</b></label>
-    <input type="text" name="etunimi"/>
-    <label for="sukunimi"><b>Sukunimi</b></label>
-    <input type="text" name="sukunimi"/>
-    <label for="salasana"><b>Salasana</b></label>
-    <input type="password" name="salasana"/><br />
-    <p></p>
-    <p></p>
-    <input type="submit" name="kirjautuminen" value="Kirjaudu sisään"/>
+    <label for="etunimi"><b>Etunimi</b></label><br />
+    <input type="text" name="etunimi" /><br />
+    <label for="sukunimi"><b>Sukunimi</b></label><br />
+    <input type="text" name="sukunimi" /><br />
+    <label for="salasana"><b>Salasana</b></label><br />
+    <input type="password" name="salasana" /><br />
+    <br />
+    <input type="submit" name="kirjautuminen" value="Kirjaudu sisään" />
 </form>
+<br />
+@Html.ActionLink("Etusivulle", "Index", "Home")
+
 
