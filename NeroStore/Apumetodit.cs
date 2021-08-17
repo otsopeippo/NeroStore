@@ -117,17 +117,27 @@ namespace NeroStore
                      select k).FirstOrDefault().OnAdmin;
             return onAdmin;
         }
-
-        public void LisaaTilausrivi(int lkm, int tilaus_id, int tuote_id )
+        public bool LisääTilaus(string email, decimal tilaussumma)
         {
-            TilausRivi tr = new TilausRivi() { 
-                Lkm = lkm,
-                TilausId = tilaus_id,
-                TuoteId = tuote_id
+            DateTime dt = new();
+            Tilau uusiTilaus = new()
+            {
+                Email = email,
+                Tilauspvm = DateTime.Now,
+                ToimitusPvm = dt.AddDays(2),
+                Tilaussumma = tilaussumma,
             };
-            using NeroStoreDBContext db = new();
-            db.TilausRivis.Add(tr);
-            db.SaveChanges();
+
+            try
+            {
+                _context.Tilaus.Add(uusiTilaus);
+                _context.SaveChanges();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
