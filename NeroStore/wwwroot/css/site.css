@@ -69,3 +69,37 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+#sivun-yläosa {
+    
+}
+
+#main-carousel {
+    max-width: 600px;
+    max-height: 600px;
+    min-height: 600px;
+    margin-left; auto;
+    margin-right; auto;
+}
+
+#sivun-alaosa {
+    background-color:aqua;
+    height: 40%;
+    text-align: center;
+}
+
+
+
+#under-construction-img {
+    max-height: 200px;
+}
+
+#ostoskori {
+    position:relative;
+    float: right;
+    margin-left: auto;
+}
+
+#test {
+    background-color:burlywood
+}
