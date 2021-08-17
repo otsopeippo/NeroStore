@@ -1,8 +1,4 @@
-﻿
-@{ 
-    List<Tuote> omatTuotteet = new List<Tuote>();
-}
-
+﻿@model List<Tuote> 
 
 
 <h1>Ostoskori</h1>
@@ -14,20 +10,40 @@
         <th>Tuotenimi</th>
         <th>Lukumäärä</th>
         <th>Hinta</th>
+        <th></th>
     </tr>
     @{ 
-        foreach (var tuote in omatTuotteet)
+        foreach (var tuote in Model)
         {
             <tr>
                 <td>@tuote.Nimi</td>
                 <td>@tuote.Lkm</td>
                 <td>@tuote.Hinta</td>
+                <td><input type="submit" value="Poista tuote"/></td>
             </tr>
         }
     }
     <tr>
         <td></td>
-        <td>Tuotteiden määrä: @omatTuotteet.Count()</td>
-        <td>Kokonaishinta: @omatTuotteet.Select(a => a.Hinta).Sum()</td>
+        <td>Tuotteiden määrä: <strong>@Model.Select(a => a.Lkm).Sum()</strong></td>
+        <td>Kokonaishinta: <strong>@Model.Select(a => a.Hinta).Sum()</strong></td>
     </tr>
 </table>
+<br />
+<br />
+
+<form method="post">
+    <label>Sähköposti</label>
+    <br />
+    <input type="email" />
+    <br />
+    <br />
+    <div>
+        <label>Lupaan kautta kiven ja kannon että olen oikea henkilö enkä mikään botti</label>
+        <br />
+        <input type="checkbox" value="Kyllä" name="varmistus" />
+        <label for="varmistus">Kyllä</label>
+    </div>
+    <br />
+    <input type="submit" value="Lähetä tilaus"/>
+</form>
