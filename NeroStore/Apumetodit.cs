@@ -128,6 +128,20 @@ namespace NeroStore
                 Tilaussumma = tilaussumma,
             };
 
+        public void LisaaTilausrivi(int lkm, int? tilaus_id, int? tuote_id)
+        {
+            if (tilaus_id != null && tuote_id != null)
+            {
+                TilausRivi tr = new TilausRivi()
+                {
+                    Lkm = lkm,
+                    TilausId = tilaus_id,
+                    TuoteId = tuote_id
+                };
+                _context.TilausRivis.Add(tr);
+                _context.SaveChanges();
+            }
+            else { return; }
             try
             {
                 _context.Tilaus.Add(uusiTilaus);
