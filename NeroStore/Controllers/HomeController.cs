@@ -64,17 +64,23 @@ namespace NeroStore.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Kirjautuminen(string nimi, string salasana)
+        public IActionResult Kirjautuminen(string etunimi, string sukunimi, string salasana)
         {
+            int id = 0;
             NeroStore.Apumetodit am = new Apumetodit(_context);
-           
-            if (am.KäyttäjäOnOlemassa(id) == true)
-            {
-                if (am.KäyttäjäOnAdmin(id) == true)
-                {
-                    return RedirectToAction("Index", "TuotesController");
-                }
+            using NeroStoreDBContext db = new NeroStoreDBContext();
+            var kirjautuja = db.Kayttajas.Where(k => k.Etunimi == etunimi && k.Sukunimi== sukunimi).FirstOrDefault();
+            id = kirjautuja.KayttajaId;
 
+            if (kirjautuja.Salasana == salasana)
+            {
+                if (am.KäyttäjäOnOlemassa(id) == true)
+                {
+                    if (am.KäyttäjäOnAdmin(id) == true)
+                    {
+                        return RedirectToAction("Index", "TuotesController");
+                    }
+                } 
             }
             return View();
         }
