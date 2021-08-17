@@ -55,6 +55,12 @@ namespace NeroStore.Controllers
             return View(db.HaeTuotteet());
         }
 
+        //[HttpPost]
+        //public IActionResult Ostoskori(string email)
+        //{
+
+        //}
+
         public IActionResult Kiitos()
         {
             return View();
