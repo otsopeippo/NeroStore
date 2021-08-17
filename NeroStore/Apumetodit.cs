@@ -102,8 +102,7 @@ namespace NeroStore
 
         public bool KäyttäjäOnOlemassa(int id)
         {
-            using NeroStoreDBContext db = new();
-            var q = (from k in db.Kayttajas
+            var q = (from k in _context.Kayttajas
                      where k.KayttajaId == id
                      select k).FirstOrDefault().KayttajaId;
             return (q == id) ? true : false;
@@ -111,8 +110,7 @@ namespace NeroStore
 
         public bool KäyttäjäOnAdmin(int id)
         {
-            using NeroStoreDBContext db = new();
-            var onAdmin = (from k in db.Kayttajas
+            var onAdmin = (from k in _context.Kayttajas
                      where k.KayttajaId == id
                      select k).FirstOrDefault().OnAdmin;
             return onAdmin;
