@@ -118,16 +118,20 @@ namespace NeroStore
             return onAdmin;
         }
 
-        public void LisaaTilausrivi(int lkm, int tilaus_id, int tuote_id )
+        public void LisaaTilausrivi(int lkm, int? tilaus_id, int? tuote_id)
         {
-            TilausRivi tr = new TilausRivi() { 
-                Lkm = lkm,
-                TilausId = tilaus_id,
-                TuoteId = tuote_id
-            };
-            using NeroStoreDBContext db = new();
-            db.TilausRivis.Add(tr);
-            db.SaveChanges();
+            if (tilaus_id != null && tuote_id != null)
+            {
+                TilausRivi tr = new TilausRivi()
+                {
+                    Lkm = lkm,
+                    TilausId = tilaus_id,
+                    TuoteId = tuote_id
+                };
+                _context.TilausRivis.Add(tr);
+                _context.SaveChanges();
+            }
+            else { return; }
         }
     }
 }
