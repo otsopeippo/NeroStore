@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NeroStore.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,10 +25,14 @@ namespace NeroStore.Controllers
 
         public IActionResult Index()
         {
-            var apustelijat = new Apumetodit(_context);
-            var sessio = HttpContext.Session;
-            apustelijat.LisääOstoskoriin(sessio, 1);
-            var testi = HttpContext.Session.GetString("foo");
+            //var a = new Apumetodit(_context);
+            //var sessio = HttpContext.Session;
+
+            //a.LisääOstoskoriin(sessio, 2);
+            //a.LisääOstoskoriin(sessio, 2);
+
+            //var ostoskori = a.HaeOstoskori(sessio);
+            //Console.WriteLine(ostoskori);
 
             return View();
         }
@@ -46,7 +51,8 @@ namespace NeroStore.Controllers
 
         public IActionResult Ostoskori()
         {
-            return View();
+            Apumetodit db = new Apumetodit(_context);
+            return View(db.HaeTuotteet());
         }
 
         public IActionResult Kiitos()
