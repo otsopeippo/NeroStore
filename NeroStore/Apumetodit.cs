@@ -126,7 +126,18 @@ namespace NeroStore
                 Tilauspvm = DateTime.Now,
                 ToimitusPvm = dt.AddDays(2),
                 Tilaussumma = tilaussumma,
-            };
+            };            
+            try
+            {
+                _context.Tilaus.Add(uusiTilaus);
+                _context.SaveChanges();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
 
         public void LisaaTilausrivi(int lkm, int? tilaus_id, int? tuote_id)
         {
@@ -142,16 +153,6 @@ namespace NeroStore
                 _context.SaveChanges();
             }
             else { return; }
-            try
-            {
-                _context.Tilaus.Add(uusiTilaus);
-                _context.SaveChanges();
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
         }
     }
 }
