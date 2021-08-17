@@ -60,7 +60,7 @@ namespace NeroStore
         {
             try
             {
-            var tuote = new Tuote();
+                var tuote = new Tuote();
                 tuote = _context.Tuotes.Find(id);
                 tuote.Lkm = tuote.Lkm + muutos;
                 _context.SaveChanges();
@@ -113,8 +113,8 @@ namespace NeroStore
         public bool KäyttäjäOnAdmin(int id)
         {
             var onAdmin = (from k in _context.Kayttajas
-                     where k.KayttajaId == id
-                     select k).FirstOrDefault().OnAdmin;
+                           where k.KayttajaId == id
+                           select k).FirstOrDefault().OnAdmin;
             return onAdmin;
         }
         public bool LisääTilaus(string email, decimal tilaussumma)
@@ -154,13 +154,43 @@ namespace NeroStore
             }
             else { return; }
         }
-
         public string HashPassword(string salasana)
         {
             var sha1 = new SHA1CryptoServiceProvider();
             byte[] salasana_bytes = Encoding.ASCII.GetBytes(salasana);
             byte[] encrypted_bytes = sha1.ComputeHash(salasana_bytes);
             return Convert.ToBase64String(encrypted_bytes);
+        }
+
+        public int? HaeAdmin(ISession sessio)
+        {
+            string käyttäjäserialized = sessio.GetString("käyttäjä");
+            if (!string.IsNullOrEmpty(käyttäjäserialized))
+            {
+                int käyttäjä = Convert.ToInt32(käyttäjäserialized);
+                return käyttäjä;
+            }
+            return null;
+        }
+        public void LisääAdminSessioon(ISession sessio, int? id)
+        {
+            sessio.SetString("käyttäjä", id.ToString());
+        }
+        public bool OnkoSessiossa(ISession sessio)
+        {
+            int? id = null;
+            NeroStore.Apumetodit am = new Apumetodit(_context);
+            var käyttäjä = from k in _context.Kayttajas
+                           select k;
+            foreach (var k in käyttäjä)
+            {
+                id = k.KayttajaId;
+            }
+            if (am.HaeAdmin(sessio) == id)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
