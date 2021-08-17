@@ -68,20 +68,26 @@ namespace NeroStore.Controllers
         {
             int id = 0;
             NeroStore.Apumetodit am = new Apumetodit(_context);
-            using NeroStoreDBContext db = new NeroStoreDBContext();
-            var kirjautuja = db.Kayttajas.Where(k => k.Etunimi == etunimi && k.Sukunimi== sukunimi).FirstOrDefault();
-            id = kirjautuja.KayttajaId;
 
-            if (kirjautuja.Salasana == salasana)
+            var kirjautuja = _context.Kayttajas.Where(k => k.Etunimi == etunimi && k.Sukunimi == sukunimi).FirstOrDefault();
+
+            if(kirjautuja != null)
             {
-                if (am.KäyttäjäOnOlemassa(id) == true)
+
+                if (kirjautuja.Salasana == salasana)
                 {
-                    if (am.KäyttäjäOnAdmin(id) == true)
+                    id = kirjautuja.KayttajaId;
+                    if (am.KäyttäjäOnOlemassa(id) == true)
                     {
-                        return RedirectToAction("Index", "TuotesController");
+                        if (am.KäyttäjäOnAdmin(id) == true)
+                        {
+                            am.LisääAdminSessioon(this.HttpContext.Session, id);
+                            return RedirectToAction("Index", "Tuotes");
+                        }
                     }
-                } 
+                }
             }
+
             return View();
         }
     }

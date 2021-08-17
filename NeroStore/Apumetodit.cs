@@ -137,5 +137,19 @@ namespace NeroStore
             }
             return true;
         }
+        public int? HaeAdmin(ISession sessio)
+        {
+            string käyttäjäserialized = sessio.GetString("käyttäjä");
+            if (!string.IsNullOrEmpty(käyttäjäserialized))
+            {
+                int käyttäjä = Convert.ToInt32(käyttäjäserialized);
+                return käyttäjä;
+            }
+            return null; 
+        }
+        public void LisääAdminSessioon(ISession sessio, int? id)
+        {
+            sessio.SetString("käyttäjä", id.ToString());
+        }
     }
 }

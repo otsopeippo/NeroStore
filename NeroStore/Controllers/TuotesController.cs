@@ -21,7 +21,19 @@ namespace NeroStore.Controllers
         // GET: Tuotes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Tuotes.ToListAsync());
+            int? id = null;
+            NeroStore.Apumetodit am = new Apumetodit(_context);
+            var käyttäjä = from k in _context.Kayttajas
+                           select k;
+            foreach (var k in käyttäjä)
+            {
+                id = k.KayttajaId;
+            }
+            if (am.HaeAdmin(this.HttpContext.Session) == id)
+            {
+                return View(await _context.Tuotes.ToListAsync());
+            }
+            return RedirectToAction("Kirjautuminen", "Home");
         }
 
         // GET: Tuotes/Details/5
