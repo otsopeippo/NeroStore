@@ -142,6 +142,12 @@ namespace NeroStore.Controllers
             }
         }
 
+        public IActionResult Tuotteet()
+        {
+            var tuotteet = _context.Tuotes.Select(t => t).ToList();
+            return View(tuotteet);
+        }
+
         [Route("Home/LisääKoriin/{id}")]
         public IActionResult LisääKoriin(int id)
         {

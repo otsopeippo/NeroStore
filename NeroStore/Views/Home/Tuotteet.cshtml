@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Tuote>
+
+@{
+    ViewData["Title"] = "Tuotteet";
+}
+<style>
+    #tuote {
+        max-height: 7em;
+        max-width: 14em;
+        width: auto;
+        height: auto;
+    }
+    #ostonappi {
+        text-align: right;
+    }
+    table {
+        width: 100%;
+    }
+    td, th {
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+        border-bottom: 1px solid #ddd;
+    }
+    #kuva {
+        padding-left: 0em;
+    }
+    tr:hover {
+        background-color: lightgray;
+    }
+    input {
+        background-color: cornflowerblue;
+        font-weight: bold;
+        color: aliceblue;
+    }
+    
+</style>
+<div>
+    <h2>Tuotteet</h2>
+    <table>
+        <thead>
+            <tr >
+                <th></th>
+                <th>Nimi</th>
+                <th>Hinta</th>
+                <th>Kuvaus</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ foreach (var tuote in Model)
+                {
+                    <tr id="tuoterivi">
+                        <td id="kuva"> 
+                            <img id="tuote" src="@tuote.Tyyppi" alt="testi" />
+                        </td>
+                        <td>@tuote.Nimi</td>
+                        <td>@tuote.Hinta € </td>
+                        <td>@tuote.Kuvaus</td>
+                        <td id="ostonappi">
+                            <form method="post" action="LisääOstoskoriin">
+                                <input type="submit" name="LisääOstoskoriin" value="Lisää ostoskoriin" />
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+
+<div>
+    @Html.ActionLink("Etusivulle", "Index", "Home")
+</div>
