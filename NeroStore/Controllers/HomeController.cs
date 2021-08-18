@@ -74,6 +74,25 @@ namespace NeroStore.Controllers
             return RedirectToAction("Ostoskori", "Home");
         }
 
+        [HttpPost]
+        public IActionResult Ostoskori(string email)
+        {
+            Apumetodit am = new Apumetodit(_context);
+            var sessio = this.HttpContext.Session;
+            var ostoslista = am.HaeOstoskori(sessio);
+            var kokonaissumma = ostoslista.Select(t => t.Hinta).Sum();
+            
+            am.LisääTilaus(email, kokonaissumma);
+            foreach (var tuote in ostoslista)
+            {
+                if (am.MuutaTuotteenSaldoa(tuote.TuoteId, -1)) {
+                    
+                    am.LisaaTilausrivi(1, am.HaeViimeisimmänTilauksenId(), tuote.TuoteId);
+                }
+            }
+            return RedirectToAction("Kiitos");
+        }
+
         public IActionResult Kiitos()
         {
             return View();
