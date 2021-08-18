@@ -39,12 +39,9 @@ namespace NeroStore.Controllers
 
         public IActionResult Etusivu()
         {
-
-
-
-
-
-
+            var a = new Apumetodit(_context);
+            var katsotuimmatTuotteet = a.HaeKatsotuimmatTuotteet();
+            ViewBag.KatsotuimmatTuotteet = katsotuimmatTuotteet;
             return View();
         }
 
@@ -82,7 +79,7 @@ namespace NeroStore.Controllers
 
             var kirjautuja = _context.Kayttajas.Where(k => k.Etunimi == etunimi && k.Sukunimi == sukunimi).FirstOrDefault();
 
-            if(kirjautuja != null)
+            if (kirjautuja != null)
             {
 
                 if (kirjautuja.Salasana == salasana)

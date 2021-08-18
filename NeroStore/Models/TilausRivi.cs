@@ -15,5 +15,4 @@ namespace NeroStore.Models
         public virtual Tilau Tilaus { get; set; }
         public virtual Tuote Tuote { get; set; }
     }
-
 }

@@ -192,5 +192,66 @@ namespace NeroStore
             }
             return false;
         }
+
+        public List<Tuote> HaeKatsotuimmatTuotteet()
+        {
+            var katsotuimmatTuotteet = new List<Tuote> { };
+            var katsotuimmatTuotteetTemp = _context.Tuotes
+                .Join(_context.Nayttokerrats,
+                t => t.TuoteId,
+                n => n.TuoteId,
+                (t, n) => new
+                {
+                    TuoteId = t.TuoteId,
+                    Nimi = t.Nimi,
+                    Varastosaldo = t.Lkm,
+                    Kuvaus = t.Kuvaus,
+                    Tuoteryhma = t.Tuoteryhma,
+                    Katselukerrat = n.Lkm,
+                    Tyyppi = t.Tyyppi
+                })
+                .OrderByDescending(k => k.Katselukerrat)
+                .Take(3);
+
+            foreach (var tuote in katsotuimmatTuotteetTemp)
+            {
+                var uusiTuote = new Tuote();
+                uusiTuote.TuoteId = tuote.TuoteId;
+                uusiTuote.Nimi = tuote.Nimi;
+                uusiTuote.Lkm = tuote.Varastosaldo;
+                uusiTuote.Kuvaus = tuote.Kuvaus;
+                uusiTuote.Tuoteryhma = tuote.Tuoteryhma;
+                uusiTuote.Tyyppi = tuote.Tyyppi;
+                katsotuimmatTuotteet.Add(uusiTuote);
+            }
+
+            return katsotuimmatTuotteet;
+        }
+
+        public bool LisääNäyttökerta(int id)
+        {
+            try
+            {
+                var match = _context.Nayttokerrats.Find(id);
+                if (match != null)
+                {
+                    match.Lkm = match.Lkm + 1;
+                }
+                else
+                {
+                    var uusiNäyttökerta = new Nayttokerrat();
+                    uusiNäyttökerta.TuoteId = id;
+                    uusiNäyttökerta.Lkm = 1;
+                }
+                _context.SaveChanges();
+            }
+
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

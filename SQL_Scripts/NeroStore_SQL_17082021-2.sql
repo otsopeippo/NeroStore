@@ -1,0 +1,12 @@
+use nerostoredb;
+delete from nayttokerrat;
+delete from tuote;
+insert into Tuote values ('Suristin', 100, 5, 'Suristaa paljon.', 'www.google.fi', 'työkalut');
+insert into Tuote values ('Nönnöttäjä', 100, 5, 'Nönnöttää paljon.', 'www.google.fi', 'työkalut');
+insert into Tuote values ('Tönöttäjä', 100, 5, 'Tönöttää paljon.', 'www.google.fi', 'työkalut');
+insert into Tuote values ('Tietokone', 1000, 10, 'Tällä pääsee Internetiin.', 'https://www.datakauppa.fi/wp-content/uploads/HP_255_G8.jpg', 'elektroniikka');
+insert into Tuote values ('Imuri', 350, 2, 'Tällä voi imuroida.', 'https://res.cloudinary.com/tokmanni/image/upload/c_pad,b_white,f_auto,h_1280,w_1280/d_default.png/7332543559916.jpg', 'elektroniikka');
+insert into Tuote values ('Televisio', 500, 5, 'Näyttää Tempparit aina keskiviikkoisin ja torstaisin.', 'https://www.tv-audio.fi/wp-content/uploads/2021/03/medium01.jpg', 'elektroniikka');
+insert into Nayttokerrat values (70, 21);
+insert into Nayttokerrat values (71, 18);
+insert into Nayttokerrat values (72, 20);
