@@ -141,5 +141,11 @@ namespace NeroStore.Controllers
                 return View(tuote);
             }
         }
+
+        public IActionResult Tuotteet()
+        {
+            var tuotteet = _context.Tuotes.Select(t => t).ToList();
+            return View(tuotteet);
+        }
     }
 }
