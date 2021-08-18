@@ -141,5 +141,13 @@ namespace NeroStore.Controllers
                 return View(tuote);
             }
         }
+
+        [Route("Home/LisääKoriin/{id}")]
+        public IActionResult LisääKoriin(int id)
+        {
+            Apumetodit am = new Apumetodit(_context);
+            am.LisääOstoskoriin(this.HttpContext.Session, id);
+            return RedirectToAction("Ostoskori", "Home");
+        }
     }
 }
