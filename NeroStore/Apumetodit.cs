@@ -207,9 +207,10 @@ namespace NeroStore
                     Varastosaldo = t.Lkm,
                     Kuvaus = t.Kuvaus,
                     Tuoteryhma = t.Tuoteryhma,
-                    Katselukerrat = n.Lkm
+                    Katselukerrat = n.Lkm,
+                    Tyyppi = t.Tyyppi
                 })
-                .OrderBy(k => k.Katselukerrat)
+                .OrderByDescending(k => k.Katselukerrat)
                 .Take(3);
 
             foreach (var tuote in katsotuimmatTuotteetTemp)
@@ -220,15 +221,37 @@ namespace NeroStore
                 uusiTuote.Lkm = tuote.Varastosaldo;
                 uusiTuote.Kuvaus = tuote.Kuvaus;
                 uusiTuote.Tuoteryhma = tuote.Tuoteryhma;
+                uusiTuote.Tyyppi = tuote.Tyyppi;
                 katsotuimmatTuotteet.Add(uusiTuote);
             }
 
             return katsotuimmatTuotteet;
         }
 
-        public void LisääNäyttökerta(int id)
+        public bool LisääNäyttökerta(int id)
         {
+            try
+            {
+                var match = _context.Nayttokerrats.Find(id);
+                if (match != null)
+                {
+                    match.Lkm = match.Lkm + 1;
+                }
+                else
+                {
+                    var uusiNäyttökerta = new Nayttokerrat();
+                    uusiNäyttökerta.TuoteId = id;
+                    uusiNäyttökerta.Lkm = 1;
+                }
+                _context.SaveChanges();
+            }
 
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

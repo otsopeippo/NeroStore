@@ -39,12 +39,9 @@ namespace NeroStore.Controllers
 
         public IActionResult Etusivu()
         {
-
-
-
-
-
-
+            var a = new Apumetodit(_context);
+            var katsotuimmatTuotteet = a.HaeKatsotuimmatTuotteet();
+            ViewBag.KatsotuimmatTuotteet = katsotuimmatTuotteet;
             return View();
         }
 
