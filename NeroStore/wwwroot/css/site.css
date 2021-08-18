@@ -83,11 +83,13 @@ body {
 }
 
 #sivun-alaosa {
-    background-color:aqua;
     height: 40%;
     text-align: center;
 }
 
+.card {
+    display: inline-block;
+}
 
 
 #under-construction-img {
