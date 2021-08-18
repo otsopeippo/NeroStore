@@ -29,8 +29,8 @@ namespace NeroStore.Controllers
 
         public IActionResult Index()
         {
-            var l = new Lasku(_configuration, _context);
-            l.LähetäLasku(new List<Tuote> { }, "foobar@hotmail.fi");
+            //var l = new Lasku(_configuration, _context);
+            //l.LähetäLasku(new List<Tuote> { }, "foobar@hotmail.fi");
 
             return RedirectToAction("Etusivu");
         }
