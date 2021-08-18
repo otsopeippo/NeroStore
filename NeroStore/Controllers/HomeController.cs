@@ -33,7 +33,9 @@ namespace NeroStore.Controllers
 
             //var ostoskori = a.HaeOstoskori(sessio);
             //Console.WriteLine(ostoskori);
-
+            Apumetodit db = new Apumetodit(_context);
+            db.LisääOstoskoriin(this.HttpContext.Session, 1);
+            db.LisääOstoskoriin(this.HttpContext.Session, 2);
             return View();
         }
 
@@ -52,7 +54,15 @@ namespace NeroStore.Controllers
         public IActionResult Ostoskori()
         {
             Apumetodit db = new Apumetodit(_context);
-            return View(db.HaeTuotteet());
+
+
+            return View(db.HaeOstoskori(this.HttpContext.Session));
+        }
+        public IActionResult PoistaaKorista(int id)
+        {
+            Apumetodit db = new Apumetodit(_context);
+            db.PoistaOstoskorista(this.HttpContext.Session, id);
+            return RedirectToAction("Ostoskori", "Home");
         }
 
         public IActionResult Kiitos()
