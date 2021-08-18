@@ -49,17 +49,17 @@
         <tbody>
             @{ foreach (var tuote in Model)
                 {
+                    string url = $"LisääKoriin/{tuote.TuoteId}";
+
                     <tr id="tuoterivi">
-                        <td id="kuva"> 
+                        <td id="kuva">
                             <img id="tuote" src="@tuote.Tyyppi" alt="testi" />
                         </td>
                         <td>@tuote.Nimi</td>
                         <td>@tuote.Hinta € </td>
                         <td>@tuote.Kuvaus</td>
                         <td id="ostonappi">
-                            <form method="post" action="LisääOstoskoriin">
-                                <input type="submit" name="LisääOstoskoriin" value="Lisää ostoskoriin" />
-                            </form>
+                            <a href="@url"><input type="button" value="Lisää ostoskoriin" /></a>
                         </td>
                     </tr>
                 }
