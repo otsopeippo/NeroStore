@@ -192,5 +192,10 @@ namespace NeroStore
             byte[] encrypted_bytes = sha1.ComputeHash(salasana_bytes);
             return Convert.ToBase64String(encrypted_bytes);
         }
+
+        public int HaeViimeisimmänTilauksenId()
+        {
+            return _context.Tilaus.Select(t => t.TilausId).Max();
+        }
     }
 }
