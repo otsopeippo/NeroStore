@@ -37,6 +37,8 @@
 </style>
 <div>
     <h2>@ViewBag.Otsikko</h2>
+    <br />
+
     <table>
         <thead>
             <tr >
@@ -50,7 +52,17 @@
         <tbody>
             @{ foreach (var tuote in Model)
                 {
-                    string url = $"LisääKoriin/{tuote.TuoteId}";
+                    string url;
+                    if (ViewBag.Otsikko == "Kaikki tuotteet")
+                    {
+                        url = $"LisääKoriin/{tuote.TuoteId}";
+                    }
+                    else
+                    {
+                        url = $"LisääKoriin/{tuote.TuoteId}/{ViewBag.Kategoria}";
+                    }
+                    
+                    //string url = $"LisääKoriin/{tuote.TuoteId}";
                     string url2 = $"Tietoja/{tuote.TuoteId}";
                     <tr id="tuoterivi" onclick="location.href='@Url.Action("Tietoja", new { id=tuote.TuoteId})'">
                         <td id="kuva">
