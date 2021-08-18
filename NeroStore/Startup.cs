@@ -34,7 +34,7 @@ namespace NeroStore
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.IdleTimeout = TimeSpan.FromSeconds(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
@@ -69,7 +69,10 @@ namespace NeroStore
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}"); 
+                endpoints.MapControllerRoute(
+                    name: "PoistaTuoteKorista",
+                    pattern: "{controller=Home}/{action=PoistaaKorista}/{id?}");
             });
         }
     }

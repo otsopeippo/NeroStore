@@ -84,7 +84,7 @@ namespace NeroStore
             if (!string.IsNullOrEmpty(ostoskoriSerialized))
             {
                 ostoskori = JsonConvert.DeserializeObject<List<Tuote>>(ostoskoriSerialized);
-            }
+            } 
             return ostoskori;
         }
 
@@ -97,9 +97,13 @@ namespace NeroStore
             sessio.SetString("tuotteet", ostoskoriSerialized);
         }
 
-        public void PoistaOstoskorista()
+        public void PoistaOstoskorista(ISession sessio, int id)
         {
-            // koodi
+            var ostoskori = HaeOstoskori(sessio);
+            Tuote t = ostoskori.Where(a=>a.TuoteId == id).FirstOrDefault();
+            ostoskori.Remove(t);
+            string ostoskoriSerialized = JsonConvert.SerializeObject(ostoskori);
+            sessio.SetString("tuotteet", ostoskoriSerialized);
         }
 
         public bool KäyttäjäOnOlemassa(int id)

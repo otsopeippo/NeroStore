@@ -60,7 +60,34 @@ namespace NeroStore.Controllers
         public IActionResult Ostoskori()
         {
             Apumetodit db = new Apumetodit(_context);
-            return View(db.HaeTuotteet());
+
+
+            return View(db.HaeOstoskori(this.HttpContext.Session));
+        }
+        public IActionResult PoistaaKorista(int id)
+        {
+            Apumetodit db = new Apumetodit(_context);
+            db.PoistaOstoskorista(this.HttpContext.Session, id);
+            return RedirectToAction("Ostoskori", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult Ostoskori(string email)
+        {
+            Apumetodit am = new Apumetodit(_context);
+            var sessio = this.HttpContext.Session;
+            var ostoslista = am.HaeOstoskori(sessio);
+            var kokonaissumma = ostoslista.Select(t => t.Hinta).Sum();
+            
+            am.LisääTilaus(email, kokonaissumma);
+            foreach (var tuote in ostoslista)
+            {
+                if (am.MuutaTuotteenSaldoa(tuote.TuoteId, -1)) {
+                    
+                    am.LisaaTilausrivi(1, am.HaeViimeisimmänTilauksenId(), tuote.TuoteId);
+                }
+            }
+            return RedirectToAction("Kiitos");
         }
 
         public IActionResult Kiitos()
@@ -110,6 +137,21 @@ namespace NeroStore.Controllers
                 //ViewBag.Tuote = tuote;
                 return View(tuote);
             }
+        }
+
+        public IActionResult Tuotteet()
+        {
+            var tuotteet = _context.Tuotes.Select(t => t).ToList();
+            return View(tuotteet);
+        }
+
+
+        [Route("Home/LisääKoriin/{id}")]
+        public IActionResult LisääKoriin(int id)
+        {
+            Apumetodit am = new Apumetodit(_context);
+            am.LisääOstoskoriin(this.HttpContext.Session, id);
+            return RedirectToAction("Tuotteet", "Home");
         }
     }
 }
