@@ -3,11 +3,26 @@
 @{
     ViewData["Title"] = "Details";
 }
+<style>
+    #tuote {
+        text-align: left;
+        max-height: 12em;
+        max-width: 12em;
+        width: auto;
+        height: auto;
+    }
+    
 
+   
+</style>
 <h1>@Model.Nimi</h1>
 <p></p>
+
 <div>
     <hr />
+    <p>
+        <img id="tuote" src="@Model.Tyyppi" alt="testi" />
+    </p>
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Nimi)
@@ -33,12 +48,12 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Kuvaus)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Tyyppi)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Tyyppi)
-        </dd>
+        @*<dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Tyyppi)
+            </dt>*@
+        @*<dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Tyyppi)
+            </dd>*@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Tuoteryhma)
         </dt>
