@@ -6,6 +6,11 @@
 
   <ItemGroup>
     <Content Remove="Views\Home\KiitosOstoksestasi.cshtml" />
+    <Content Remove="Views\Home\Tuotetiedot.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\nero-logo.png" />
   </ItemGroup>
 
   <ItemGroup>
