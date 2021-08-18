@@ -193,9 +193,37 @@ namespace NeroStore
             return false;
         }
 
-        public void HaeKatsotuimmatTuotteet()
+        public List<Tuote> HaeKatsotuimmatTuotteet()
         {
-            //var katsotuimmatTuotteet = _context.Tuotes.
+            var katsotuimmatTuotteet = new List<Tuote> { };
+            var katsotuimmatTuotteetTemp = _context.Tuotes
+                .Join(_context.Nayttokerrats,
+                t => t.TuoteId,
+                n => n.TuoteId,
+                (t, n) => new
+                {
+                    TuoteId = t.TuoteId,
+                    Nimi = t.Nimi,
+                    Varastosaldo = t.Lkm,
+                    Kuvaus = t.Kuvaus,
+                    Tuoteryhma = t.Tuoteryhma,
+                    Katselukerrat = n.Lkm
+                })
+                .OrderBy(k => k.Katselukerrat)
+                .Take(3);
+
+            foreach (var tuote in katsotuimmatTuotteetTemp)
+            {
+                var uusiTuote = new Tuote();
+                uusiTuote.TuoteId = tuote.TuoteId;
+                uusiTuote.Nimi = tuote.Nimi;
+                uusiTuote.Lkm = tuote.Varastosaldo;
+                uusiTuote.Kuvaus = tuote.Kuvaus;
+                uusiTuote.Tuoteryhma = tuote.Tuoteryhma;
+                katsotuimmatTuotteet.Add(uusiTuote);
+            }
+
+            return katsotuimmatTuotteet;
         }
 
         public void LisääNäyttökerta(int id)

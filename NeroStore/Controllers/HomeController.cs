@@ -82,7 +82,7 @@ namespace NeroStore.Controllers
 
             var kirjautuja = _context.Kayttajas.Where(k => k.Etunimi == etunimi && k.Sukunimi == sukunimi).FirstOrDefault();
 
-            if(kirjautuja != null)
+            if (kirjautuja != null)
             {
 
                 if (kirjautuja.Salasana == salasana)

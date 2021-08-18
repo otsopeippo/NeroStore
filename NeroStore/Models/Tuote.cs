@@ -20,6 +20,7 @@ namespace NeroStore.Models
         public string Tyyppi { get; set; }
         public string Tuoteryhma { get; set; }
 
+        public virtual Nayttokerrat Nayttokerrat { get; set; }
         public virtual ICollection<TilausRivi> TilausRivis { get; set; }
     }
 }
