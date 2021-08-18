@@ -7,7 +7,15 @@
     table {
         width: 100%;
     }
-    
+    #tuote {
+        max-height: 7em;
+        max-width: 14em;
+        width: auto;
+        height: auto;
+    }
+    #kuva {
+        padding-left: 0em;
+    }
 </style>
 <h1>Tuotteet</h1>
 
@@ -17,6 +25,9 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+               Tuote
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nimi)
             </th>
@@ -29,9 +40,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Kuvaus)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tyyppi)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Tuoteryhma)
             </th>
@@ -39,32 +48,36 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nimi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hinta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lkm)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Kuvaus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tyyppi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tuoteryhma)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.TuoteId">Muokkaa</a> |
-                <a asp-action="Details" asp-route-id="@item.TuoteId">Lisätietoja</a> |
-                <a asp-action="Delete" asp-route-id="@item.TuoteId">Poista</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td id="kuva">
+                    <img id="tuote" src="@item.Tyyppi" alt="testi" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nimi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hinta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lkm)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Kuvaus)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Tyyppi)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tuoteryhma)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.TuoteId">Muokkaa</a> |
+                    <a asp-action="Details" asp-route-id="@item.TuoteId">Lisätietoja</a> |
+                    <a asp-action="Delete" asp-route-id="@item.TuoteId">Poista</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
