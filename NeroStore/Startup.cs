@@ -40,6 +40,8 @@ namespace NeroStore
             });
 
             services.AddControllersWithViews();
+
+            services.AddSingleton<IConfiguration>(Configuration); // testi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

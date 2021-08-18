@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NeroStore.Models;
 using Newtonsoft.Json;
@@ -17,24 +18,26 @@ namespace NeroStore.Controllers
 
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, NeroStoreDBContext context)
+        private readonly IConfiguration _configuration; // test
+
+        public HomeController(ILogger<HomeController> logger, NeroStoreDBContext context, IConfiguration configuration)
         {
             _logger = logger;
             _context = context;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
         {
-            //var a = new Apumetodit(_context);
-            //var sessio = HttpContext.Session;
-
-            //a.LisääOstoskoriin(sessio, 2);
-            //a.LisääOstoskoriin(sessio, 2);
-
-            //var ostoskori = a.HaeOstoskori(sessio);
-            //Console.WriteLine(ostoskori);
+            var l = new Lasku(_configuration);
+            l.LähetäLasku();
 
             return RedirectToAction("Etusivu");
+        }
+
+        private object Lasku()
+        {
+            throw new NotImplementedException();
         }
 
         public IActionResult Etusivu()
