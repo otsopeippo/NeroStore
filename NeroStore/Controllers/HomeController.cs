@@ -125,8 +125,11 @@ namespace NeroStore.Controllers
 
             return View();
         }
-        public IActionResult Tietoja(int? id)
+        public IActionResult Tietoja(int id)
         {
+            var a = new Apumetodit(_context);
+            a.LisääNäyttökerta(id);
+
             if (id == null)
             {
                 return NotFound();
