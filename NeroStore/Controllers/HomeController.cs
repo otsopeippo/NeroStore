@@ -125,6 +125,7 @@ namespace NeroStore.Controllers
 
             return View();
         }
+        [Route("Home/Tietoja/{id}")]
         public IActionResult Tietoja(int id)
         {
             var a = new Apumetodit(_context);
