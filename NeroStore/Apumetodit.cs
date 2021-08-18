@@ -257,5 +257,10 @@ namespace NeroStore
 
             return true;
         }
+
+        public int HaeViimeisimmänTilauksenId()
+        {
+            return _context.Tilaus.Select(t => t.TilausId).Max();
+        }
     }
 }
