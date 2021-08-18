@@ -197,13 +197,6 @@ namespace NeroStore
             return false;
         }
 
-        public string HashPassword(string salasana)
-        {
-            var sha1 = new SHA1CryptoServiceProvider();
-            byte[] salasana_bytes = Encoding.ASCII.GetBytes(salasana);
-            byte[] encrypted_bytes = sha1.ComputeHash(salasana_bytes);
-            return Convert.ToBase64String(encrypted_bytes);
-        }
 
         public int HaeViimeisimmänTilauksenId()
         {
