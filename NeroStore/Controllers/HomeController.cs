@@ -143,9 +143,19 @@ namespace NeroStore.Controllers
             }
         }
 
-        public IActionResult Tuotteet()
+        public IActionResult Tuotteet(string kategoria = "")
         {
-            var tuotteet = _context.Tuotes.Select(t => t).ToList();
+            List<Tuote> tuotteet;
+            if (kategoria == "")
+            {
+                ViewBag.Otsikko = "Kaikki tuotteet";
+                tuotteet = _context.Tuotes.Select(t => t).ToList();
+            }
+            else
+            {
+                ViewBag.Otsikko = "Kategorian " + kategoria + " tuotteet";
+                tuotteet = _context.Tuotes.Where(t => t.Tuoteryhma == kategoria).Select(t => t).ToList();
+            }
             return View(tuotteet);
         }
 
@@ -157,5 +167,11 @@ namespace NeroStore.Controllers
             am.LisääOstoskoriin(this.HttpContext.Session, id);
             return RedirectToAction("Tuotteet", "Home");
         }
+
+        //public IActionResult Tuotteet(string kategoria)
+        //{
+        //    var tuotteet = _context.Tuotes.Where(t => t.Tuoteryhma == kategoria).Select(t => t).ToList();
+        //    return View(tuotteet);
+        //}
     }
 }
