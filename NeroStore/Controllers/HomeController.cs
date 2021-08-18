@@ -154,6 +154,7 @@ namespace NeroStore.Controllers
             else
             {
                 ViewBag.Otsikko = "Kategorian " + kategoria + " tuotteet";
+                ViewBag.Kategoria = kategoria;
                 tuotteet = _context.Tuotes.Where(t => t.Tuoteryhma == kategoria).Select(t => t).ToList();
             }
             return View(tuotteet);
@@ -161,11 +162,19 @@ namespace NeroStore.Controllers
 
 
         [Route("Home/LisääKoriin/{id}")]
-        public IActionResult LisääKoriin(int id)
+        [Route("Home/LisääKoriin/{id}/{kategoria}")]
+        public IActionResult LisääKoriin(int id, string kategoria = "")
         {
             Apumetodit am = new Apumetodit(_context);
             am.LisääOstoskoriin(this.HttpContext.Session, id);
-            return RedirectToAction("Tuotteet", "Home");
+            if (kategoria == "")
+            {
+                return RedirectToAction("Tuotteet", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Tuotteet", "Home", new { kategoria = kategoria });
+            }
         }
 
         //public IActionResult Tuotteet(string kategoria)
