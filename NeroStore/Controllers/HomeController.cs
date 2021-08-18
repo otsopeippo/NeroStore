@@ -177,10 +177,6 @@ namespace NeroStore.Controllers
             }
         }
 
-        //public IActionResult Tuotteet(string kategoria)
-        //{
-        //    var tuotteet = _context.Tuotes.Where(t => t.Tuoteryhma == kategoria).Select(t => t).ToList();
-        //    return View(tuotteet);
-        //}
+
     }
 }
