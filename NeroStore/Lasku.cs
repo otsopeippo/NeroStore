@@ -21,25 +21,25 @@ namespace NeroStore
             _context = context;
         }
 
-        public bool LähetäLasku(List<Tuote> tuotteet, string sähköposti)
+        public bool LähetäLasku(List<Tuote> tuotteet, string vastaanottajaSähköposti)
         {
             try
             {
-                var emailOsoite = _configuration.GetConnectionString("Email");
-                var emailSalasana = _configuration.GetConnectionString("EmailPassword");
+                var neroSähköpostiOsoite = _configuration.GetConnectionString("Email");
+                var neroSähköpostiSala = _configuration.GetConnectionString("EmailPassword");
 
-                MailMessage mailMessage = new MailMessage(emailOsoite, "riku.soikkeli@hotmail.fi");
+                MailMessage mailMessage = new MailMessage(neroSähköpostiOsoite, vastaanottajaSähköposti);
                 mailMessage.Subject = "NeroStore tilauksesi";
 
                 SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
                 smtpClient.Credentials = new System.Net.NetworkCredential()
                 {
-                    UserName = emailOsoite,
-                    Password = emailSalasana
+                    UserName = neroSähköpostiOsoite,
+                    Password = neroSähköpostiSala
                 };
                 smtpClient.EnableSsl = true;
 
-                var lasku = LuoLasku(tuotteet, sähköposti);
+                var lasku = LuoLasku(tuotteet, vastaanottajaSähköposti);
                 //File.WriteAllBytes("testilasku.pdf", testilasku); // tää on ihan paska ja ruma
 
                 mailMessage.BodyEncoding = System.Text.Encoding.UTF8;
