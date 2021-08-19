@@ -18,7 +18,7 @@ namespace NeroStore.Controllers
 
         private readonly ILogger<HomeController> _logger;
 
-        private readonly IConfiguration _configuration; // test
+        private readonly IConfiguration _configuration;
 
         public HomeController(ILogger<HomeController> logger, NeroStoreDBContext context, IConfiguration configuration)
         {
