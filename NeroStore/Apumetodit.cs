@@ -142,7 +142,13 @@ namespace NeroStore
             }
             return true;
         }
-
+        /// <summary>
+        /// Tämä metodi lisää tilausrivin JA vähentää 
+        /// tuotteiden lukumäärästä tilausrivin määrän tuotteita
+        /// </summary>
+        /// <param name="lkm"></param>
+        /// <param name="tilaus_id"></param>
+        /// <param name="tuote_id"></param>
         public void LisaaTilausrivi(int lkm, int? tilaus_id, int? tuote_id)
         {
             if (tilaus_id != null && tuote_id != null)
@@ -153,6 +159,8 @@ namespace NeroStore
                     TilausId = tilaus_id,
                     TuoteId = tuote_id
                 };
+                // Tässä vähennetään tuotteiden lukumäärästä
+                _context.Tuotes.Find(tuote_id).Lkm = _context.Tuotes.Find(tuote_id).Lkm - lkm;
                 _context.TilausRivis.Add(tr);
                 _context.SaveChanges();
             }

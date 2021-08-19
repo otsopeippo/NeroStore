@@ -1,5 +1,10 @@
 ﻿@model List<Tuote>
-
+<style>
+    .varoitus {
+        color: red;
+        font-style: italic;
+    }
+</style>
 
 <h1>Ostoskori</h1>
 <br />
@@ -20,7 +25,7 @@
 
             <tr>
                 <td>@tuote.Nimi</td>
-                <td>@tuote.Lkm</td>
+                <td>1</td>
                 <td>@tuote.Hinta</td>
                 <td><a href="@url"><input type="button" value="Poista tuote" /></a></td>
 
@@ -29,17 +34,19 @@
     }
     <tr>
         <td></td>
-        <td>Tuotteiden määrä: <strong>@Model.Select(a => a.Lkm).Sum()</strong></td>
-        <td>Kokonaishinta: <strong>@Model.Select(a => a.Hinta).Sum()</strong></td>
+        <td>Tuotteiden määrä: <strong>@ViewBag.Lkm</strong></td>
+        <td>Kokonaishinta: <strong>@ViewBag.KokonaisHinta</strong></td>
     </tr>
 </table>
+<p class="varoitus">@ViewBag.OstoskoriTyhjä</p>
 <br />
 <br />
 
 <form method="post">
     <label>Sähköposti</label>
     <br />
-    <input type="email" />
+    <input type="email" name="email" value="@ViewBag.Email"/>
+    <p class="varoitus">@ViewBag.EmailPuuttuu</p>
     <br />
     <br />
     <div>
@@ -47,6 +54,7 @@
         <br />
         <input type="checkbox" value="Kyllä" name="varmistus" />
         <label for="varmistus">Kyllä</label>
+        <p class="varoitus">@ViewBag.CheckboxPuuttuu</p>
     </div>
     <br />
     <input type="submit" value="Lähetä tilaus" />

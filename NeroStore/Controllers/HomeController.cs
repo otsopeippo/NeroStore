@@ -55,12 +55,18 @@ namespace NeroStore.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Ostoskori()
+        public IActionResult Ostoskori(string email = "", string checkboxPuuttuu = "", string emailPuuttuu = "",  string ostoskoriTyhjä = "")
         {
             Apumetodit db = new Apumetodit(_context);
 
-
-            return View(db.HaeOstoskori(this.HttpContext.Session));
+            var minunOstoskori = db.HaeOstoskori(this.HttpContext.Session);
+            ViewBag.KokonaisHinta = minunOstoskori.Select(a => a.Hinta).Sum();
+            ViewBag.Lkm = minunOstoskori.Count();
+            ViewBag.Email = email;
+            ViewBag.CheckboxPuuttuu = checkboxPuuttuu;
+            ViewBag.EmailPuuttuu = emailPuuttuu;
+            ViewBag.OstoskoriTyhjä = ostoskoriTyhjä;
+            return View(minunOstoskori);
         }
         public IActionResult PoistaaKorista(int id)
         {
@@ -87,6 +93,42 @@ namespace NeroStore.Controllers
                 }
             }
             return RedirectToAction("Kiitos");
+        }
+            var varoitusteksti = "*Pakollinen kenttä";
+            var varoitusOstoskoriTyhjä = "Ostoskorisi on tyhjä.";
+
+            if (ostoslista.Count == 0)
+            {
+                return RedirectToAction("Ostoskori", new { Email = email, CheckboxPuuttuu = "", EmailPuuttuu = "",  OstoskoriTyhjä = varoitusOstoskoriTyhjä });
+            }
+            else if (varmistus != "Kyllä" && email == null)
+            {
+                ModelState.AddModelError("", "XXX");
+                return RedirectToAction("Ostoskori", new { Email = email, CheckboxPuuttuu = varoitusteksti, EmailPuuttuu = varoitusteksti }) ;
+            }
+            else if (varmistus != "Kyllä") 
+            {
+                return RedirectToAction("Ostoskori", new { Email = email, CheckboxPuuttuu = varoitusteksti });
+            }
+            else if (email == null)
+            {
+                return RedirectToAction("Ostoskori", new { Email = email, CheckboxPuuttuu ="", EmailPuuttuu = varoitusteksti });
+            }
+            else
+            {
+                var kokonaissumma = ostoslista.Select(t => t.Hinta).Sum();
+
+                am.LisääTilaus(email, kokonaissumma);
+                foreach (var tuote in ostoslista)
+                {
+                    if (am.MuutaTuotteenSaldoa(tuote.TuoteId, -1))
+                    {
+
+                        am.LisaaTilausrivi(1, am.HaeViimeisimmänTilauksenId(), tuote.TuoteId);
+                    }
+                }
+                return RedirectToAction("Kiitos");
+            }
         }
 
         public IActionResult Kiitos()
