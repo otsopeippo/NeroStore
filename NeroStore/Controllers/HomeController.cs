@@ -55,11 +55,11 @@ namespace NeroStore.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Ostoskori()
+        public IActionResult Ostoskori(string checkboxPuuttuu = "", string email = "")
         {
             Apumetodit db = new Apumetodit(_context);
-
-
+            ViewBag.Email = email;
+            ViewBag.CheckboxPuuttuu = checkboxPuuttuu;
             return View(db.HaeOstoskori(this.HttpContext.Session));
         }
         public IActionResult PoistaaKorista(int id)
@@ -70,22 +70,31 @@ namespace NeroStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Ostoskori(string email)
+        public IActionResult Ostoskori(string email, string varmistus)
         {
-            Apumetodit am = new Apumetodit(_context);
-            var sessio = this.HttpContext.Session;
-            var ostoslista = am.HaeOstoskori(sessio);
-            var kokonaissumma = ostoslista.Select(t => t.Hinta).Sum();
-            
-            am.LisääTilaus(email, kokonaissumma);
-            foreach (var tuote in ostoslista)
-            {
-                if (am.MuutaTuotteenSaldoa(tuote.TuoteId, -1)) {
-                    
-                    am.LisaaTilausrivi(1, am.HaeViimeisimmänTilauksenId(), tuote.TuoteId);
-                }
+            if (varmistus != "Kyllä") 
+            { 
+                ModelState.AddModelError("", "XXX");
+                return RedirectToAction("Ostoskori");
             }
-            return RedirectToAction("Kiitos");
+            else
+            {
+                Apumetodit am = new Apumetodit(_context);
+                var sessio = this.HttpContext.Session;
+                var ostoslista = am.HaeOstoskori(sessio);
+                var kokonaissumma = ostoslista.Select(t => t.Hinta).Sum();
+
+                am.LisääTilaus(email, kokonaissumma);
+                foreach (var tuote in ostoslista)
+                {
+                    if (am.MuutaTuotteenSaldoa(tuote.TuoteId, -1))
+                    {
+
+                        am.LisaaTilausrivi(1, am.HaeViimeisimmänTilauksenId(), tuote.TuoteId);
+                    }
+                }
+                return RedirectToAction("Kiitos");
+            }
         }
 
         public IActionResult Kiitos()
