@@ -54,14 +54,17 @@ namespace NeroStore.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        [Route("Home/Ostoskori/{tarkistettu}")]
+        [Route("Home/Ostoskori")]
 
-        public IActionResult Ostoskori()
+        public IActionResult Ostoskori(int? tarkistettu)
         {
             Apumetodit db = new Apumetodit(_context);
 
             var minunOstoskori = db.HaeOstoskori(this.HttpContext.Session);
             ViewBag.KokonaisHinta = minunOstoskori.Select(a => a.Hinta).Sum();
             ViewBag.Lkm = minunOstoskori.Count();
+            ViewBag.Tarkistettu = tarkistettu;
             return View(minunOstoskori);
         }
         public IActionResult PoistaaKorista(int id)
@@ -177,6 +180,10 @@ namespace NeroStore.Controllers
             }
         }
 
+        public IActionResult Heikki()
+        {
+            return View();
+        }
 
     }
 }

@@ -45,8 +45,20 @@
     <div>
         <label>Lupaan kautta kiven ja kannon että olen oikea henkilö enkä mikään botti</label>
         <br />
-        <input type="checkbox" value="Kyllä" name="varmistus" />
-        <label for="varmistus">Kyllä</label>
+
+        @{
+            if (ViewBag.Tarkistettu == 1)
+            {
+                <label>Klikkaa tästä</label>
+                <input type="checkbox" checked="checked" />
+            }
+            else
+            {
+                <a href="Heikki"><input type="button" value="Kyllä" name="varmistus" /></a>
+                <label for="varmistus">Klikkaa tästä</label>
+                <input type="checkbox" hidden />
+            }
+        }
     </div>
     <br />
     <input type="submit" value="Lähetä tilaus" />
