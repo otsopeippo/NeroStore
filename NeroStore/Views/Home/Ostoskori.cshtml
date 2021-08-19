@@ -57,12 +57,12 @@
             if (ViewBag.Tarkistettu == 1)
             {
                 <label>Klikkaa tästä</label>
-                <input type="checkbox" checked="checked" />
+                <input type="checkbox" checked="checked" name="varmistus"/>
             }
             else
             {
-                <a href="Heikki"><input type="button" value="Kyllä" name="varmistus" /></a>
-                <label for="varmistus">Klikkaa tästä</label>
+                <a href="Heikki"><input type="button" value="Kyllä" /></a>
+                <label >Klikkaa tästä</label>
                 <input type="checkbox" hidden />
                 <p class="varoitus">@ViewBag.CheckboxPuuttuu</p>
         }
