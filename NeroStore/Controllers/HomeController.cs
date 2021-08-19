@@ -164,7 +164,7 @@ namespace NeroStore.Controllers
             //ViewBag.Tuote = tuote;
             if(ostos == "ok")
             {
-                ViewBag.Kiitos = "Kiitos ostoksestasi!";
+                ViewBag.Viesti = "Tuote lisätty ostoskoriin";
                 return View(tuote);
             }
             return View(tuote);
