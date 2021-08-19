@@ -104,13 +104,14 @@ namespace NeroStore.Controllers
             else
             {
                 var kokonaissumma = ostoslista.Select(t => t.Hinta).Sum();
+                Lasku lasku = new(_configuration, _context);
+                lasku.LähetäLasku(ostoslista, email);
 
                 am.LisääTilaus(email, kokonaissumma);
                 foreach (var tuote in ostoslista)
                 {
                     if (am.MuutaTuotteenSaldoa(tuote.TuoteId, -1))
                     {
-
                         am.LisaaTilausrivi(1, am.HaeViimeisimmänTilauksenId(), tuote.TuoteId);
                     }
                 }
