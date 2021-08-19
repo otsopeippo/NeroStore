@@ -8,7 +8,7 @@
     List<Tuote> katsotuimmat = ViewBag.KatsotuimmatTuotteet;
 }
 
-<div id="sivun-yläosa">
+<div id="sivun-yläosa" style="display:flex;">
     <div id="main-carousel" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -35,7 +35,7 @@
                     </div>
                 }
             }
-        </div>
+    </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
@@ -45,6 +45,9 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+    <div id="teksti-karusellin-vieressä">
+        <h2>Katso<br />klikatuimmat<br /> tuotteet!</h2>
+    </div>
 </div>
 <div id="sivun-alaosa">
     <div class="card" style="width: 18rem;">
@@ -52,7 +55,7 @@
         <div class="card-body">
             <h5 class="card-title">Viihde</h5>
             <p class="card-text">Täältä löytyy kuumimmat välineet viihteestä nauttimiseen.</p>
-            <a href="Tuotteet?kategoria=Viihde" class="btn btn-primary">Siirry kategoriaan...</a> 
+            <a href="Tuotteet?kategoria=Viihde" class="btn btn-primary">Siirry kategoriaan...</a>
         </div>
     </div>
     <div class="card" style="width: 18rem;">
