@@ -77,7 +77,8 @@ namespace NeroStore.Controllers
             db.PoistaOstoskorista(this.HttpContext.Session, id);
             return RedirectToAction("Ostoskori", "Home");
         }
-
+        [Route("Home/Ostoskori/{tarkistettu}")]
+        [Route("Home/Ostoskori")]
         [HttpPost]
         public IActionResult Ostoskori(string email, string varmistus)
         {
