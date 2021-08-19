@@ -54,8 +54,10 @@ namespace NeroStore.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        [Route("Home/Ostoskori/{tarkistettu}")]
+        [Route("Home/Ostoskori")]
 
-        public IActionResult Ostoskori(string email = "", string checkboxPuuttuu = "", string emailPuuttuu = "",  string ostoskoriTyhjä = "")
+        public IActionResult Ostoskori(int? tarkistettu, string email = "", string checkboxPuuttuu = "", string emailPuuttuu = "",  string ostoskoriTyhjä = "")
         {
             Apumetodit db = new Apumetodit(_context);
 
@@ -66,6 +68,7 @@ namespace NeroStore.Controllers
             ViewBag.CheckboxPuuttuu = checkboxPuuttuu;
             ViewBag.EmailPuuttuu = emailPuuttuu;
             ViewBag.OstoskoriTyhjä = ostoskoriTyhjä;
+            ViewBag.Tarkistettu = tarkistettu;
             return View(minunOstoskori);
         }
         public IActionResult PoistaaKorista(int id)
@@ -74,7 +77,8 @@ namespace NeroStore.Controllers
             db.PoistaOstoskorista(this.HttpContext.Session, id);
             return RedirectToAction("Ostoskori", "Home");
         }
-
+        [Route("Home/Ostoskori/{tarkistettu}")]
+        [Route("Home/Ostoskori")]
         [HttpPost]
         public IActionResult Ostoskori(string email, string varmistus)
         {
@@ -211,6 +215,10 @@ namespace NeroStore.Controllers
             return RedirectToAction("Tietoja", "Home", new { id = id, ostos = "ok"});
         }
 
+        public IActionResult Heikki()
+        {
+            return View();
+        }
 
     }
 }
