@@ -55,17 +55,18 @@ namespace NeroStore.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult Ostoskori(string checkboxPuuttuu = "", string email = "")
+        public IActionResult Ostoskori(string email = "", string checkboxPuuttuu = "", string emailPuuttuu = "",  string ostoskoriTyhjä = "")
         {
             Apumetodit db = new Apumetodit(_context);
 
             var minunOstoskori = db.HaeOstoskori(this.HttpContext.Session);
             ViewBag.KokonaisHinta = minunOstoskori.Select(a => a.Hinta).Sum();
             ViewBag.Lkm = minunOstoskori.Count();
-            return View(minunOstoskori);
             ViewBag.Email = email;
             ViewBag.CheckboxPuuttuu = checkboxPuuttuu;
-            return View(db.HaeOstoskori(this.HttpContext.Session));
+            ViewBag.EmailPuuttuu = emailPuuttuu;
+            ViewBag.OstoskoriTyhjä = ostoskoriTyhjä;
+            return View(minunOstoskori);
         }
         public IActionResult PoistaaKorista(int id)
         {
@@ -77,16 +78,31 @@ namespace NeroStore.Controllers
         [HttpPost]
         public IActionResult Ostoskori(string email, string varmistus)
         {
-            if (varmistus != "Kyllä") 
-            { 
+            Apumetodit am = new Apumetodit(_context);
+            var sessio = this.HttpContext.Session;
+            var ostoslista = am.HaeOstoskori(sessio);
+            var varoitusteksti = "*Pakollinen kenttä";
+            var varoitusOstoskoriTyhjä = "Ostoskorisi on tyhjä.";
+
+            if (ostoslista.Count == 0)
+            {
+                return RedirectToAction("Ostoskori", new { Email = email, CheckboxPuuttuu = "", EmailPuuttuu = "",  OstoskoriTyhjä = varoitusOstoskoriTyhjä });
+            }
+            else if (varmistus != "Kyllä" && email == null)
+            {
                 ModelState.AddModelError("", "XXX");
-                return RedirectToAction("Ostoskori");
+                return RedirectToAction("Ostoskori", new { Email = email, CheckboxPuuttuu = varoitusteksti, EmailPuuttuu = varoitusteksti }) ;
+            }
+            else if (varmistus != "Kyllä") 
+            {
+                return RedirectToAction("Ostoskori", new { Email = email, CheckboxPuuttuu = varoitusteksti });
+            }
+            else if (email == null)
+            {
+                return RedirectToAction("Ostoskori", new { Email = email, CheckboxPuuttuu ="", EmailPuuttuu = varoitusteksti });
             }
             else
             {
-                Apumetodit am = new Apumetodit(_context);
-                var sessio = this.HttpContext.Session;
-                var ostoslista = am.HaeOstoskori(sessio);
                 var kokonaissumma = ostoslista.Select(t => t.Hinta).Sum();
 
                 am.LisääTilaus(email, kokonaissumma);
