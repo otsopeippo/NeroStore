@@ -57,7 +57,7 @@ namespace NeroStore.Controllers
         [Route("Home/Ostoskori/{tarkistettu}")]
         [Route("Home/Ostoskori")]
 
-        public IActionResult Ostoskori(string email = "", string checkboxPuuttuu = "", string emailPuuttuu = "",  string ostoskoriTyhjä = "", int? tarkistettu)
+        public IActionResult Ostoskori(int? tarkistettu, string email = "", string checkboxPuuttuu = "", string emailPuuttuu = "",  string ostoskoriTyhjä = "")
         {
             Apumetodit db = new Apumetodit(_context);
 
