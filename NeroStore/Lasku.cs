@@ -39,12 +39,12 @@ namespace NeroStore
                 };
                 smtpClient.EnableSsl = true;
 
-                var testilasku = LuoLasku(tuotteet, sähköposti);
+                var lasku = LuoLasku(tuotteet, sähköposti);
                 //File.WriteAllBytes("testilasku.pdf", testilasku); // tää on ihan paska ja ruma
 
                 mailMessage.BodyEncoding = System.Text.Encoding.UTF8;
                 mailMessage.IsBodyHtml = true;
-                mailMessage.Body = testilasku;
+                mailMessage.Body = lasku;
                 smtpClient.Send(mailMessage);
             }
             catch
