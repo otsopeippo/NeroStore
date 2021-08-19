@@ -80,7 +80,7 @@ namespace NeroStore.Controllers
         [Route("Home/Ostoskori/{tarkistettu}")]
         [Route("Home/Ostoskori")]
         [HttpPost]
-        public IActionResult Ostoskori(string email, string varmistus)
+        public IActionResult Ostoskori(string email, string varmistus, string nappi)
         {
             Apumetodit am = new Apumetodit(_context);
             var sessio = this.HttpContext.Session;
