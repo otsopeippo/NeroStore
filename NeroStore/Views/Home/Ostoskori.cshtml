@@ -29,8 +29,8 @@
     }
     <tr>
         <td></td>
-        <td>Tuotteiden määrä: <strong>@Model.Count()</strong></td>
-        <td>Kokonaishinta: <strong>@Model.Select(a => a.Hinta).Sum()</strong></td>
+        <td>Tuotteiden määrä: <strong>@ViewBag.Lkm</strong></td>
+        <td>Kokonaishinta: <strong>@ViewBag.KokonaisHinta</strong></td>
     </tr>
 </table>
 <br />

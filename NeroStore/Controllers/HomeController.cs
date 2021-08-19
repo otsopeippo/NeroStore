@@ -59,8 +59,10 @@ namespace NeroStore.Controllers
         {
             Apumetodit db = new Apumetodit(_context);
 
-
-            return View(db.HaeOstoskori(this.HttpContext.Session));
+            var minunOstoskori = db.HaeOstoskori(this.HttpContext.Session);
+            ViewBag.KokonaisHinta = minunOstoskori.Select(a => a.Hinta).Sum();
+            ViewBag.Lkm = minunOstoskori.Count();
+            return View(minunOstoskori);
         }
         public IActionResult PoistaaKorista(int id)
         {
