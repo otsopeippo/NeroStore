@@ -4,18 +4,37 @@
         color: red;
         font-style: italic;
     }
+    table {
+        width: 100%;
+    }
+    td, th {
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+        border-bottom: 1px solid #ddd;
+    }
+    .poistonappi {
+        border-bottom: 0px solid aliceblue;
+    }
+    #poisto {
+        background-color: darkgrey;
+    }
+    #ostonappi {
+        background-color: cornflowerblue;
+        font-weight: bold;
+        color: aliceblue;
+    }
 </style>
 
 <h1>Ostoskori</h1>
 <br />
 <br />
 
-<table border="1">
+<table >
     <tr>
         <th>Tuotenimi</th>
         <th>Lukumäärä</th>
         <th>Hinta</th>
-        <th></th>
+        <th class="poistonappi"></th>
     </tr>
     @{
         foreach (var tuote in Model)
@@ -27,7 +46,7 @@
                 <td>@tuote.Nimi</td>
                 <td>1</td>
                 <td>@tuote.Hinta</td>
-                <td><a href="@url"><input type="button" value="Poista tuote" /></a></td>
+                <td class="poistonappi"><a href="@url"><input id="poisto" type="button" value="Poista tuote" /></a></td>
 
             </tr>
         }
@@ -35,7 +54,7 @@
     <tr>
         <td></td>
         <td>Tuotteiden määrä: <strong>@ViewBag.Lkm</strong></td>
-        <td>Kokonaishinta: <strong>@ViewBag.KokonaisHinta</strong></td>
+        <td>Kokonaishinta: <strong>@ViewBag.KokonaisHinta €</strong></td>
     </tr>
 </table>
 <p class="varoitus">@ViewBag.OstoskoriTyhjä</p>
@@ -57,5 +76,5 @@
         <p class="varoitus">@ViewBag.CheckboxPuuttuu</p>
     </div>
     <br />
-    <input type="submit" value="Lähetä tilaus" />
+    <input id="ostonappi" type="submit" value="Lähetä tilaus" />
 </form>
