@@ -76,24 +76,11 @@ namespace NeroStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Ostoskori(string email)
+        public IActionResult Ostoskori(string email, string varmistus)
         {
             Apumetodit am = new Apumetodit(_context);
             var sessio = this.HttpContext.Session;
             var ostoslista = am.HaeOstoskori(sessio);
-            var kokonaissumma = ostoslista.Select(t => t.Hinta).Sum();
-
-            am.LisääTilaus(email, kokonaissumma);
-            foreach (var tuote in ostoslista)
-            {
-                if (am.MuutaTuotteenSaldoa(tuote.TuoteId, -1))
-                {
-
-                    am.LisaaTilausrivi(1, am.HaeViimeisimmänTilauksenId(), tuote.TuoteId);
-                }
-            }
-            return RedirectToAction("Kiitos");
-        }
             var varoitusteksti = "*Pakollinen kenttä";
             var varoitusOstoskoriTyhjä = "Ostoskorisi on tyhjä.";
 
