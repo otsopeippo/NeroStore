@@ -76,12 +76,13 @@ namespace NeroStore.Controllers
             var sessio = this.HttpContext.Session;
             var ostoslista = am.HaeOstoskori(sessio);
             var kokonaissumma = ostoslista.Select(t => t.Hinta).Sum();
-            
+
             am.LisääTilaus(email, kokonaissumma);
             foreach (var tuote in ostoslista)
             {
-                if (am.MuutaTuotteenSaldoa(tuote.TuoteId, -1)) {
-                    
+                if (am.MuutaTuotteenSaldoa(tuote.TuoteId, -1))
+                {
+
                     am.LisaaTilausrivi(1, am.HaeViimeisimmänTilauksenId(), tuote.TuoteId);
                 }
             }
@@ -124,21 +125,21 @@ namespace NeroStore.Controllers
             return View();
         }
         [Route("Home/Tietoja/{id}")]
-        public IActionResult Tietoja(int id)
+       
+        public IActionResult Tietoja(int id, string ostos = "")
         {
             var a = new Apumetodit(_context);
             a.LisääNäyttökerta(id);
 
-            if (id == null)
+            var tuote = _context.Tuotes.Where(t => t.TuoteId == id).FirstOrDefault();
+            //ViewBag.Tuote = tuote;
+            if(ostos == "ok")
             {
-                return NotFound();
-            }
-            else
-            {
-                var tuote = _context.Tuotes.Where(t => t.TuoteId == id).FirstOrDefault();
-                //ViewBag.Tuote = tuote;
+                ViewBag.Kiitos = "Kiitos ostoksestasi!";
                 return View(tuote);
             }
+            return View(tuote);
+
         }
 
         public IActionResult Tuotteet(string kategoria = "")
@@ -173,6 +174,12 @@ namespace NeroStore.Controllers
             {
                 return RedirectToAction("Tuotteet", "Home", new { kategoria = kategoria });
             }
+        }
+        public IActionResult LisääKoriinTietoja(int id)
+        {
+            Apumetodit am = new Apumetodit(_context);
+            am.LisääOstoskoriin(this.HttpContext.Session, id);
+            return RedirectToAction("Tietoja", "Home", new { id = id, ostos = "ok"});
         }
 
 

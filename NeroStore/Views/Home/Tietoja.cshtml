@@ -4,6 +4,7 @@
     ViewData["Title"] = "Details";
 }
 <style>
+
     #tuote {
         text-align: left;
         max-height: 12em;
@@ -11,57 +12,74 @@
         width: auto;
         height: auto;
     }
-    
-
    
+    .näkymä {
+        display: flex;
+    }
+    input {
+        background-color: cornflowerblue;
+        font-weight: bold;
+        color: aliceblue;
+    }
+    .kuva{
+        width:300px
+    }
+    .ostonappi{
+        margin-left:8px;
+    }
 </style>
 <h1>@Model.Nimi</h1>
 <p></p>
-
-<div>
-    <hr />
-    <p>
+<hr />
+<div class="näkymä">
+    <div class=" kuva">
         <img id="tuote" src="@Model.Tyyppi" alt="testi" />
-    </p>
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nimi)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nimi)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Hinta)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Hinta) €
-        </dd>
-        <dt class="col-sm-2">
-            Varastossa
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Lkm)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Kuvaus)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Kuvaus)
-        </dd>
-        @*<dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Tyyppi)
-            </dt>*@
-        @*<dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Tyyppi)
-            </dd>*@
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Tuoteryhma)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Tuoteryhma)
-        </dd>
-    </dl>
-</div>
+    </div>
+    <br />
+    <div class="teksti">
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Nimi)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Nimi)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Hinta)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Hinta) €
+            </dd>
+            <dt class="col-sm-2">
+                Varastossa
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Lkm)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Kuvaus)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Kuvaus)
+            </dd>
 
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Tuoteryhma)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Tuoteryhma)
+            </dd>
+        </dl>
+    </div>
+</div>
 <br />
-@Html.ActionLink("Etusivulle", "Index", "Home")
+<br />
+<div id="ostonappi">
+
+    <a href="@Url.Action("LisääKoriinTietoja", new { id = Model.TuoteId})"><input type="button" value="Lisää ostoskoriin" /></a>
+</div>
+<br />
+<h3>@ViewBag.Kiitos</h3>
+<br />
+@Html.ActionLink("Tuotelistaukseen", "Tuotteet", "Home")
+
