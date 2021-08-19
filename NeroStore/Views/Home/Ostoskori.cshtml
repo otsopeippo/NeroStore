@@ -12,7 +12,7 @@
         padding-right: 0.5em;
         border-bottom: 1px solid #ddd;
     }
-    .poistonappi {
+    .rajaton {
         border-bottom: 0px solid aliceblue;
     }
     #poisto {
@@ -34,7 +34,7 @@
         <th>Tuotenimi</th>
         <th>Lukumäärä</th>
         <th>Hinta</th>
-        <th class="poistonappi"></th>
+        <th class="rajaton"></th>
     </tr>
     @{
         foreach (var tuote in Model)
@@ -46,7 +46,7 @@
                 <td>@tuote.Nimi</td>
                 <td>1</td>
                 <td>@tuote.Hinta</td>
-                <td class="poistonappi"><a href="@url"><input id="poisto" type="button" value="Poista tuote" /></a></td>
+                <td class="rajaton"><a href="@url"><input id="poisto" type="button" value="Poista tuote" /></a></td>
 
             </tr>
         }
@@ -75,13 +75,16 @@
         @{
             if (ViewBag.Tarkistettu == 1)
             {
-                <p>Klikkaa tästä</p>
-                <input type="checkbox" checked="checked" name="varmistus" value="Kyllä"/>
+                <table>
+                     <tr>
+                         <td class="rajaton"><input type="checkbox" checked="checked" name="varmistus" value="Kyllä" /></td>
+                         <td class="rajaton"><p><b>Hienoa, et ole botti!</b></p></td>
+                     </tr>
+                </table>
             }
             else
             {
-                <a href="Heikki"><input type="button" value="Kyllä"/></a>
-                <label >Klikkaa tästä</label>
+                <a href="Heikki"><input type="button" value="Kyllä" name="nappi"/></a>
                 <input type="checkbox" hidden name="varmistus" value="Kyllä"/>
                 <p class="varoitus">@ViewBag.CheckboxPuuttuu</p>
             }
