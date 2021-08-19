@@ -1,5 +1,10 @@
 ﻿@model List<Tuote>
-
+<style>
+    .varoitus {
+        color: red;
+        font-style: italic;
+    }
+</style>
 
 <h1>Ostoskori</h1>
 <br />
@@ -33,13 +38,15 @@
         <td>Kokonaishinta: <strong>@ViewBag.KokonaisHinta</strong></td>
     </tr>
 </table>
+<p class="varoitus">@ViewBag.OstoskoriTyhjä</p>
 <br />
 <br />
 
 <form method="post">
     <label>Sähköposti</label>
     <br />
-    <input type="email" name="email"/>
+    <input type="email" name="email" value="@ViewBag.Email"/>
+    <p class="varoitus">@ViewBag.EmailPuuttuu</p>
     <br />
     <br />
     <div>
@@ -57,7 +64,8 @@
                 <a href="Heikki"><input type="button" value="Kyllä" name="varmistus" /></a>
                 <label for="varmistus">Klikkaa tästä</label>
                 <input type="checkbox" hidden />
-            }
+            <p class="varoitus">@ViewBag.CheckboxPuuttuu</p>
+        }
         }
     </div>
     <br />
