@@ -108,6 +108,11 @@ body {
     margin-right: auto;
     margin-top: auto;
     margin-bottom: auto;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 50px;
+    animation-name: shake;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
 }
 
 .carousel-item img {
@@ -118,4 +123,14 @@ body {
 
 .carousel-inner {
     position: relative;
+}
+
+#logo > * {
+    max-height: 100px;
+}
+
+@keyframes shake {
+    0% {padding-left: 0%}
+    50% {padding-left: 5%}
+    100% {padding-left: 0%}
 }
