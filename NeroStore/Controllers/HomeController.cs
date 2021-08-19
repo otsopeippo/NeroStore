@@ -54,13 +54,22 @@ namespace NeroStore.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        [Route("Home/Ostoskori/{tarkistettu}")]
+        [Route("Home/Ostoskori")]
 
-        public IActionResult Ostoskori()
+        public IActionResult Ostoskori(int? tarkistettu, string email = "", string checkboxPuuttuu = "", string emailPuuttuu = "",  string ostoskoriTyhjä = "")
         {
             Apumetodit db = new Apumetodit(_context);
 
-
-            return View(db.HaeOstoskori(this.HttpContext.Session));
+            var minunOstoskori = db.HaeOstoskori(this.HttpContext.Session);
+            ViewBag.KokonaisHinta = minunOstoskori.Select(a => a.Hinta).Sum();
+            ViewBag.Lkm = minunOstoskori.Count();
+            ViewBag.Email = email;
+            ViewBag.CheckboxPuuttuu = checkboxPuuttuu;
+            ViewBag.EmailPuuttuu = emailPuuttuu;
+            ViewBag.OstoskoriTyhjä = ostoskoriTyhjä;
+            ViewBag.Tarkistettu = tarkistettu;
+            return View(minunOstoskori);
         }
         public IActionResult PoistaaKorista(int id)
         {
@@ -68,24 +77,50 @@ namespace NeroStore.Controllers
             db.PoistaOstoskorista(this.HttpContext.Session, id);
             return RedirectToAction("Ostoskori", "Home");
         }
-
+        [Route("Home/Ostoskori/{tarkistettu}")]
+        [Route("Home/Ostoskori")]
         [HttpPost]
-        public IActionResult Ostoskori(string email)
+        public IActionResult Ostoskori(string email, string varmistus)
         {
             Apumetodit am = new Apumetodit(_context);
             var sessio = this.HttpContext.Session;
             var ostoslista = am.HaeOstoskori(sessio);
-            var kokonaissumma = ostoslista.Select(t => t.Hinta).Sum();
-            
-            am.LisääTilaus(email, kokonaissumma);
-            foreach (var tuote in ostoslista)
+            var varoitusteksti = "*Pakollinen kenttä";
+            var varoitusOstoskoriTyhjä = "Ostoskorisi on tyhjä.";
+
+            if (ostoslista.Count == 0)
             {
-                if (am.MuutaTuotteenSaldoa(tuote.TuoteId, -1)) {
-                    
-                    am.LisaaTilausrivi(1, am.HaeViimeisimmänTilauksenId(), tuote.TuoteId);
-                }
+                return RedirectToAction("Ostoskori", new { Email = email, CheckboxPuuttuu = "", EmailPuuttuu = "",  OstoskoriTyhjä = varoitusOstoskoriTyhjä });
             }
-            return RedirectToAction("Kiitos");
+            else if (varmistus != "Kyllä" && email == null)
+            {
+                ModelState.AddModelError("", "XXX");
+                return RedirectToAction("Ostoskori", new { Email = email, CheckboxPuuttuu = varoitusteksti, EmailPuuttuu = varoitusteksti }) ;
+            }
+            else if (varmistus != "Kyllä") 
+            {
+                return RedirectToAction("Ostoskori", new { Email = email, CheckboxPuuttuu = varoitusteksti });
+            }
+            else if (email == null)
+            {
+                return RedirectToAction("Ostoskori", new { Email = email, CheckboxPuuttuu ="", EmailPuuttuu = varoitusteksti });
+            }
+            else
+            {
+                var kokonaissumma = ostoslista.Select(t => t.Hinta).Sum();
+                Lasku lasku = new(_configuration, _context);
+                lasku.LähetäLasku(ostoslista, email);
+
+                am.LisääTilaus(email, kokonaissumma);
+                foreach (var tuote in ostoslista)
+                {
+                    if (am.MuutaTuotteenSaldoa(tuote.TuoteId, -1))
+                    {
+                        am.LisaaTilausrivi(1, am.HaeViimeisimmänTilauksenId(), tuote.TuoteId);
+                    }
+                }
+                return RedirectToAction("Kiitos");
+            }
         }
 
         public IActionResult Kiitos()
@@ -124,21 +159,21 @@ namespace NeroStore.Controllers
             return View();
         }
         [Route("Home/Tietoja/{id}")]
-        public IActionResult Tietoja(int id)
+       
+        public IActionResult Tietoja(int id, string ostos = "")
         {
             var a = new Apumetodit(_context);
             a.LisääNäyttökerta(id);
 
-            if (id == null)
+            var tuote = _context.Tuotes.Where(t => t.TuoteId == id).FirstOrDefault();
+            //ViewBag.Tuote = tuote;
+            if(ostos == "ok")
             {
-                return NotFound();
-            }
-            else
-            {
-                var tuote = _context.Tuotes.Where(t => t.TuoteId == id).FirstOrDefault();
-                //ViewBag.Tuote = tuote;
+                ViewBag.Viesti = "Tuote lisätty ostoskoriin";
                 return View(tuote);
             }
+            return View(tuote);
+
         }
 
         public IActionResult Tuotteet(string kategoria = "")
@@ -174,7 +209,17 @@ namespace NeroStore.Controllers
                 return RedirectToAction("Tuotteet", "Home", new { kategoria = kategoria });
             }
         }
+        public IActionResult LisääKoriinTietoja(int id)
+        {
+            Apumetodit am = new Apumetodit(_context);
+            am.LisääOstoskoriin(this.HttpContext.Session, id);
+            return RedirectToAction("Tietoja", "Home", new { id = id, ostos = "ok"});
+        }
 
+        public IActionResult Heikki()
+        {
+            return View();
+        }
 
     }
 }
