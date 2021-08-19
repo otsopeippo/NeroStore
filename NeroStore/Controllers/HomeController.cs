@@ -58,6 +58,11 @@ namespace NeroStore.Controllers
         public IActionResult Ostoskori(string checkboxPuuttuu = "", string email = "")
         {
             Apumetodit db = new Apumetodit(_context);
+
+            var minunOstoskori = db.HaeOstoskori(this.HttpContext.Session);
+            ViewBag.KokonaisHinta = minunOstoskori.Select(a => a.Hinta).Sum();
+            ViewBag.Lkm = minunOstoskori.Count();
+            return View(minunOstoskori);
             ViewBag.Email = email;
             ViewBag.CheckboxPuuttuu = checkboxPuuttuu;
             return View(db.HaeOstoskori(this.HttpContext.Session));
