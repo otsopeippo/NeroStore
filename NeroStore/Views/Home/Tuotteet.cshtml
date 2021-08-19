@@ -32,10 +32,13 @@
         font-weight: bold;
         color: aliceblue;
     }
+
     
 </style>
 <div>
-    <h2>Tuotteet</h2>
+    <h2>@ViewBag.Otsikko</h2>
+    <br />
+
     <table>
         <thead>
             <tr >
@@ -49,15 +52,26 @@
         <tbody>
             @{ foreach (var tuote in Model)
                 {
-                    string url = $"LisääKoriin/{tuote.TuoteId}";
-
-                    <tr id="tuoterivi">
+                    string url;
+                    if (ViewBag.Otsikko == "Kaikki tuotteet")
+                    {
+                        url = $"LisääKoriin/{tuote.TuoteId}";
+                    }
+                    else
+                    {
+                        url = $"LisääKoriin/{tuote.TuoteId}/{ViewBag.Kategoria}";
+                    }
+                    
+                    //string url = $"LisääKoriin/{tuote.TuoteId}";
+                    string url2 = $"Tietoja/{tuote.TuoteId}";
+                    <tr id="tuoterivi" onclick="location.href='@Url.Action("Tietoja", new { id=tuote.TuoteId})'">
                         <td id="kuva">
                             <img id="tuote" src="@tuote.Tyyppi" alt="testi" />
                         </td>
                         <td>@tuote.Nimi</td>
                         <td>@tuote.Hinta € </td>
                         <td>@tuote.Kuvaus</td>
+
                         <td id="ostonappi">
                             <a href="@url"><input type="button" value="Lisää ostoskoriin" /></a>
                         </td>

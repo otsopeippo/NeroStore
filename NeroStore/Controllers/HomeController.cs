@@ -123,6 +123,7 @@ namespace NeroStore.Controllers
 
             return View();
         }
+        [Route("Home/Tietoja/{id}")]
         public IActionResult Tietoja(int id)
         {
             var a = new Apumetodit(_context);
@@ -140,19 +141,40 @@ namespace NeroStore.Controllers
             }
         }
 
-        public IActionResult Tuotteet()
+        public IActionResult Tuotteet(string kategoria = "")
         {
-            var tuotteet = _context.Tuotes.Select(t => t).ToList();
+            List<Tuote> tuotteet;
+            if (kategoria == "")
+            {
+                ViewBag.Otsikko = "Kaikki tuotteet";
+                tuotteet = _context.Tuotes.Select(t => t).ToList();
+            }
+            else
+            {
+                ViewBag.Otsikko = "Kategorian " + kategoria + " tuotteet";
+                ViewBag.Kategoria = kategoria;
+                tuotteet = _context.Tuotes.Where(t => t.Tuoteryhma == kategoria).Select(t => t).ToList();
+            }
             return View(tuotteet);
         }
 
 
         [Route("Home/LisääKoriin/{id}")]
-        public IActionResult LisääKoriin(int id)
+        [Route("Home/LisääKoriin/{id}/{kategoria}")]
+        public IActionResult LisääKoriin(int id, string kategoria = "")
         {
             Apumetodit am = new Apumetodit(_context);
             am.LisääOstoskoriin(this.HttpContext.Session, id);
-            return RedirectToAction("Tuotteet", "Home");
+            if (kategoria == "")
+            {
+                return RedirectToAction("Tuotteet", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Tuotteet", "Home", new { kategoria = kategoria });
+            }
         }
+
+
     }
 }
