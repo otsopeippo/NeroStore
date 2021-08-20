@@ -104,7 +104,7 @@ body {
 
 #teksti-karusellin-vieressä {
     position: relative;
-    text-align: centre;
+    text-align: center;
     margin-left: auto;
     margin-right: auto;
     margin-top: auto;
@@ -117,7 +117,6 @@ body {
 }
 
 .carousel-item img {
-    position: abolute;
     transform: translate(0%, -50%);
     margin-top: 50%;
 }
