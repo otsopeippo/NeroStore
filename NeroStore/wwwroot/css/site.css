@@ -78,8 +78,8 @@ body {
     max-width: 600px;
     max-height: 600px;
     min-height: 600px;
-    margin-left; auto;
-    margin-right; auto;
+/*    margin-left: auto;
+    margin-right: auto;*/
 }
 
 #sivun-alaosa {
@@ -103,6 +103,7 @@ body {
 }
 
 #teksti-karusellin-vieressä {
+    position: relative;
     text-align: centre;
     margin-left: auto;
     margin-right: auto;
@@ -130,7 +131,7 @@ body {
 }
 
 @keyframes shake {
-    0% {padding-left: 0%}
-    50% {padding-left: 5%}
-    100% {padding-left: 0%}
+    0% {left: 0%}
+    50% {left: 4%}
+    100% {left: 0%}
 }
